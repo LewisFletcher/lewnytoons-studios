@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+{% if single_list %}
+<h1 class="text-xl font-extrabold mx-auto mt-5 w-3/4 pl-10">Search Results</h1>
+<div class="content-start mx-auto mt-5">   
+    <div class="grid lg:grid-cols-2 xl:grid-cols-3 gap-10 px-2 py-2 mx-auto w-3/4 xl:w-3/4 mb-4">        
+    {% for single in single_list %}
+        <div class="bg-slate-600 rounded overflow-hidden md:w-64 w-64 mx-2 bg-opacity-25">    
+            {% if single.picture %}
+            <a href="{% url 'the_music:play' single.id %}" target="_blank" rel="noreferrer"><img src="{{ single.picture.url }}" class="h-64 md:h-64 w-full object-cover"alt=""></a>
+            {% else %}
+            <img src="{% static 'something_wrong.jpg' %}" class="h-64 md:h-64 w-full object-cover"alt="">
+            {% endif %}
+            <a href="{% url 'the_music:play' single.id %}" target="_blank" rel="noreferrer"><h2 class="font-bold bold_underline pl-1">{{ single.title }}</h2></a>
+            <h2 class="font-medium text-sm pl-1">Release Date: {{ single.release_date }}</h2>
+        </div> 
+    {% endfor %}      
+    </div>
+</div>
+{% else %}
+    <p>No music is available at this time.</p>
+{% endif %}
+
+{% endblock %}

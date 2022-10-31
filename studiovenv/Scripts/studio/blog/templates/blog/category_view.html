@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+{% block manual_headline %}{{ category }} Posts{% endblock %}
+{% block content %}
+        {% include "blog/category_select.html" %}
+        {% if object_list %}
+        {% for post in object_list %}
+        {% include "blog/post_summary.html" %}
+        {% endfor %}
+        {% include "blog/paginator.html" %}
+        {% else %}
+        <div class="min-h-screen flex-box-content flex-auto mx-auto mt-10 pl-4">
+        <p>No blog posts are available at this time.</p>
+        </div>   
+        
+        {% endif %}        
+        
+{% endblock %}

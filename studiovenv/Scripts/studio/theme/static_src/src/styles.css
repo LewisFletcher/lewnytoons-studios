@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.page_start {
+    @apply content-start flex-auto mt-10 pl-4 mx-auto
+}
+
+.contentborder {
+    @apply border-slate-800 pr-4 pt-4 pb-2 flex-auto border-solid border-b-2
+}
+
+.bold_underline {
+    @apply hover:underline hover:text-slate-200 hover:font-semibold
+}
+
+.lewny_button {
+    @apply px-4 py-2 rounded-full bg-gradient-to-r from-slate-800 to-violet-900 text-slate-200 border border-slate-700 hover:opacity-80 cursor-pointer
+}

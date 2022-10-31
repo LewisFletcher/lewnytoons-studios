@@ -1,0 +1,31 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<head>
+<title>LewnyToons - {{ song.title }}</title>
+{% tailwind_css %}
+</head>
+    <body class="antialiased text-slate-400 bg-slate-900"> 
+        <div class="w-full sm:w-9/12 lg:w-8/12 px-4 sm:pr-2 lg:pr-4 mx-auto"> 
+            <div class="flex flex-col font-bold text-2xl text-center items-center text-white mx-auto pt-2">
+                <h1 class="mb-4">Listen to {{ song.title }} now!</h1>
+                {% if song.picture %}
+                <img src="{{ song.picture.url }}" class="min-h-64 min-w-64 md:h-96 md:w-96"alt="">
+                {% elif album.picture %}
+                <img src="{{ album.picture.url }}" class="min-h-64 min-w-64 md:h-96 md:w-96"alt="">
+                {% else %}
+                <img src="{% static 'something_wrong.jpg' %}" class="min-h-64 min-w-64 md:h-96 md:w-96"alt="">
+                {% endif %}
+                </div>
+            {% if song.audio_file %}
+            <span class="flex justify-center py-10">
+                <div>
+                <audio controls><source src="{{ song.audio_file.url }}" type="audio/mpeg"></audio>
+                </div>
+            </span>
+            {% else %}
+            <p>The file could not be found.</p>
+            <a href="{% url 'the_music:music' %}" class="text-white bold_underline">Return to music.</p>
+            {% endif %}
+        </div>
+    </body>
+</html>

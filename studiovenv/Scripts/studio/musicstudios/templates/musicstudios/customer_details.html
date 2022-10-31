@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="content-start flex-auto mt-10 pl-4 mx-auto">
+    <div class="contentborder">
+        <span class="flex justify-between">  
+        <h2 class="text-2xl font-bold mb-4" id="background">Place Your Order</h2>
+        <a href="{% url 'musicstudios' %}"><button class="lewny_button my-2">Cancel Order</button></a>
+        </span>
+        <p class="pb-4 font-lg">
+            Thank you for choosing LewnyToons Studios for your music needs! Please fill out the details below before 
+            proceeding to your order. This will help us get in touch with you regarding your purchase. The email address you provide 
+            will be used to send the final mix back to you.
+        </p>
+    </div>
+    <span class="flex-auto flex-col">
+            <form class="py-2" action="" method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <span class="flex justify-end">  
+                <input class="lewny_button my-4" type="submit" value="Continue" onclick="window.location.href='{% url 'orderdetails' %}';return false;">
+                </span>
+            </form>
+    </span>
+</div>
+
+{% endblock %}

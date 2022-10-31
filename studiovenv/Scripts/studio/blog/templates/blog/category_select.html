@@ -1,0 +1,14 @@
+<div class="rounded-md px-2 py-2 max-w-fit" id="menubg">
+    <button class="rounded-full bg-slate-600 bg-opacity-25 text-slate-200 px-2 pb-2 pt-1 row-span-1" onclick="toggle2(hidden)">
+        <span class="font-bold align-middle"><ion-icon name="add-outline" id="categoryicon" class="text-xl align-[-5px] pointer-events-none items-end"></ion-icon><span class="pr-2" id="cathtml">Category Select</span></span>                  
+    </button>
+        <ul class="hidden pt-1" id="categoryselect">
+            {% if category_list %}
+                {% for category in category_list %}
+                <li>
+                    <a href="{% url 'the_blog:category' category.id %}" class="bold_underline">{{ category }}</a>
+                </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+</div>

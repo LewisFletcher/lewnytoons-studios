@@ -1,0 +1,105 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block sidebar %}
+{% endblock %}
+
+{% block homepage %}
+
+<div class="flex flex-col md:flex-row flex-auto px-8 py-8 mt-10 mb-5 mx-8 border-b-2 border-t-2 border-slate-600 md:space-x-10 overflow-hidden">
+    <div class="flex-grow-1 flex-shrink-0 flex-auto h-64 w-64 md:h-96 md:w-96 lg:h-[36rem] lg:w-[36rem] transitional-all ease-in duration-500">
+        <img src="{% static 'lewny.jpg' %}" class="w-64 h-64 md:h-96 md:w-96 lg:h-[36rem] lg:w-[36rem] transitional-all ease-in duration-500"alt=""></a>
+    </div>
+    <div class="hidden md:block flex-shrink-1 flex-grow-1 flex-auto">
+        <div class="grid place-items-center h-96 lg:h-[36rem]">
+            <p class="text-3xl font-bold italic">LewnyToons Studios is a self-made platform built to house all assets created by Lewis Fletcher. 
+                From studio services to website development to personal music released under the stage name "LewnyToons", LTS has everything you are looking for.
+            </p>
+        </div>
+    </div>
+    <div class="block md:hidden mt-4">
+        <div class="">
+            <p class="text-3xl font-bold italic">LewnyToons Studios is a self-made platform built to house all assets created by Lewis Fletcher. 
+                From studio services to website development to personal music released under the stage name "LewnyToons", LTS has everything you are looking for.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="grid place-items-center">
+    <div class="px-8 py-2 my-2 mx-8">
+        <div> 
+            <p class="text-2xl">
+                For more about Lewis Fletcher or LewnyToons:
+            </p>
+        </div>
+        <div class="flex flex-row flex-auto justify-between my-2">
+            <div class="text-lg font-bold hover:font-extrabold">
+                <button onclick="window.location.href='{% url 'portfolio' %}';" class="lewny_button">
+                    Lewis Fletcher
+                </button>
+            </div>   
+            <div class="text-lg font-bold hover:font-extrabold">
+                <button onclick="window.location.href='{% url 'the_music:music' %}';" class="lewny_button">
+                    LewnyToons
+                </button>
+            </div>
+        </div>
+    </div>   
+</div>
+<div class="flex flex-col md:flex-row flex-auto px-8 py-8 mt-10 mb-5 mx-8 border-b-2 border-t-2 border-slate-600 md:space-x-10 overflow-hidden">
+    <div class="hidden md:block flex-shrink-1 flex-grow-1 flex-auto">
+        <div class="grid place-items-center h-96 lg:h-[36rem]">
+            <p class="text-3xl font-bold italic">
+                LewnyToons Studios is also home to Lewis Fletcher's blog! For behind the scenes album information, music production tips, or Django tips, check out the 
+                <a class="text-gray-300" href="{% url 'the_blog:blog' %}">blog</a> now!
+            </p>
+        </div>
+    </div>
+    <div class="block md:hidden mt-2 mb-4">
+        <div class="">
+            <p class="text-3xl font-bold italic">LewnyToons Studios is also home to Lewis Fletcher's blog! For behind the scenes album information, music production tips, or Django tips, check out the 
+                <a class="text-gray-300" href="{% url 'the_blog:blog' %}">blog</a> now!
+            </p>
+        </div>
+    </div>
+    <div class="flex-grow-1 flex-shrink-0 flex-auto h-64 w-64 md:h-96 md:w-96 lg:h-[36rem] lg:w-[36rem] transitional-all ease-in duration-500">
+        {% for photo in blog_photo %}
+            {% if photo.blog_photo1 %}
+            <a href="{% url 'the_blog:blog' %}"><img src="{{ photo.blog_photo1.url }}" class="w-64 h-64 md:h-96 md:w-96 lg:h-[36rem] lg:w-[36rem] transitional-all ease-in duration-500"alt=""></a>
+            {% else %}
+            <a href="{% url 'the_blog:blog' %}"><img src="{% static 'something_wrong.jpg' %}" class="w-64 h-64 md:h-96 md:w-96 lg:h-[36rem] lg:w-[36rem] transitional-all ease-in duration-500"alt=""></a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<div class="flex flex-col md:flex-row flex-auto px-8 py-8 mt-10 mb-5 mx-8 border-b-2 border-t-2 border-slate-600 md:space-x-10 overflow-hidden">
+    <div class="flex-grow-1 flex-shrink-0 flex-auto h-64 w-64 md:h-96 md:w-96 lg:h-[36rem] lg:w-[36rem] transitional-all ease-in duration-500">
+        {% for single in single_cover %}
+            {% if single.picture %}
+            <a href="{% url 'the_music:play' single.id %}"><img src="{{ single.picture.url }}" class="w-64 h-64 md:h-96 md:w-96 lg:h-[36rem] lg:w-[36rem] transitional-all ease-in duration-500"alt=""></a>
+            {% else %}
+            <a href="{% url 'the_music:music' %}"><img src="{% static 'something_wrong.jpg' %}" class="w-64 h-64 md:h-96 md:w-96 lg:h-[36rem] lg:w-[36rem] transitional-all ease-in duration-500"alt=""></a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="hidden md:block flex-shrink-1 flex-grow-1 flex-auto">
+        <div class="grid place-items-center h-96 lg:h-[36rem]">
+            <p class="text-3xl font-bold italic">
+            {% for single in single_cover %}
+                Check out LewnyToons latest single, {% if single.title %}"{{ single.title }}"{% else %}it's great{% endif %}! Available to stream on your favorite services, or listen  
+                <a class="text-gray-300" {% if single.title %}href="{% url 'the_music:play' single.id %}"{% else %}href="{% url 'the_music:music' %}"{% endif %}>here</a> for free!
+            {% endfor %}
+            </p>
+        </div>
+    </div>
+    <div class="block md:hidden mt-4">
+        <div class="">
+            <p class="text-3xl font-bold italic">
+            {% for single in single_cover %}
+                Check out LewnyToons latest single, {% if single.title %}"{{ single.title }}"{% else %}it's great{% endif %}! Available to stream on your favorite services, or listen  
+                <a class="text-gray-300" {% if single.title %}href="{% url 'the_music:play' single.id %}"{% else %}href="{% url 'the_music:music' %}"{% endif %}>here</a> for free!
+            {% endfor %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+cd studiovenv/Scripts/studio
+cd studiovenv/Scripts
+activate
+cd studio
+python manage.py tailwind start
+
+Stripe: micl-apuz-gjxg-tvlb-dxas

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+    {% block navbar %}
+    <nav role="navigation" class="md:flex md:justify-between md:items-center p-1 bg-gradient-to-r from-slate-900 to-violet-900 text-white shadow-lg">
+        
+        <div class="flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <img src="https://i1.sndcdn.com/avatars-BrNmfJcKXyEswCEN-DwyB0g-t200x200.jpg" class="inline h-12 px-2 pt-1 pb-1" alt="LewnyToons Logo"/>
+                <span class="mx-0 sm:mx-2 my-2 border-b-1 border-transparent hover:border-violet-900 border-opacity-25 self-center text-xl font-semibold whitespace-nowrap text-slate-300 hover:text-violet-900 transition-all duration-500">LewnyToons Studios</span>
+            </a>
+            <button class="mobile-menu-button text-3xl cursor-pointer mx-2 md:hidden block" id="menu">
+                <ion-icon name="menu" id="menubutton" onclick="toggle(hidden)"></ion-icon>         
+            </button>
+        </div>
+        <div class="hidden md:block" id="mobilenav">
+            <ul class="w-full h-full flex flex-col md:flex-row items-center text-slate-300 text-xl md:text-base font-medium md:z-auto md:static absolute left-0 md:w-auto md:py-0 py-4 md:pl-0 pl-7 bg-violet-900 md:bg-opacity-0 md:top-[-400px] transitional-all ease-in duration-500">
+                <li class="mx-4 my-6 md:my-0 {% if request.path == '/' %}active:font-extrabold text-white{% endif %}">
+                <a class="bold_underline" href="/">Home</a>            
+                </li>
+                <li class="mx-4 my-6 md:my-0 {% if 'portfolio' in request.path %}active:font-extrabold text-white{% endif %}">
+                <a class="bold_underline" href="{% url 'portfolio' %}">Portfolio</a>            
+                </li>
+                <li class="mx-4 my-6 md:my-0 {% if 'blog' in request.path %}active:font-extrabold text-white{% endif %}">
+                <a class="bold_underline" href="{% url 'the_blog:blog' %}">Blog</a>            
+                </li>
+                <li class="mx-4 my-6 md:my-0 {% if 'music/' in request.path %}active:font-extrabold text-white{% endif %}">
+                <a class="bold_underline" href="{% url 'the_music:music' %}">Music</a>            
+                </li>
+                <li class="mx-4 my-6 md:my-0 {% if 'musicstudios' in request.path  %}active:font-extrabold text-white{% endif %}">
+                <a class="bold_underline" href="{% url 'musicstudios' %}">Studios</a>
+                </li>
+                <li class="mx-4 my-6 md:my-0 {% if 'merch' in request.path %}active:font-extrabold text-white{% endif %}">
+                <a class="bold_underline" href="{% url 'merch' %}">Merch</a>
+                </li>
+            </ul>
+        </div>
+        <span class="md:block hidden">
+            <a href="https://github.com/LewisFletcher" target="_blank" class="
+                text-gray-400
+                hover:text-slate-900
+                pl-3
+                py-2
+                pr-5
+                rounded-md
+                font-medium                
+            "><i class="fab fa-github"></i></a>
+        </span>
+    </nav>
+    {% endblock %}
