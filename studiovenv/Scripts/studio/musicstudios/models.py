@@ -40,13 +40,13 @@ class Price(models.Model):
     price_description = models.CharField(max_length=300, null=True)
 
     class Meta:
-        ordering = ['-price', 'product']
+        ordering = ['price']
 	
     def get_display_price(self):
         return "{0:.2f}".format(self.price / 100)
 
     def __str__(self):
-        return self.price_description
+        return '%s %s' % (self.price, self.price_description)
 
 class Order(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Package Type: ')

@@ -1,10 +1,11 @@
 from django.views.generic.base import View
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 import stripe
 from django.conf import settings
 from django.http import JsonResponse
 from .models import Price, Product, Order, Customer
 from . import forms
+from .forms import OrderForm
 from django.views.generic import TemplateView, CreateView
 
 
@@ -24,6 +25,16 @@ sidebar_context = {
     'sb6url' : '#tutor',
 }
  
+def orderdetails(request):
+    form = OrderForm()
+    context = {'form' : form}
+    template_name = 'musicstudios/order_details.html'
+    return render(request, template_name, context)
+
+def prices(request):
+    form = OrderForm(request.GET)
+    return HttpResponse(form['prices'])
+
 class StudiosOverview(View):
     def get_context_data(self, **kwargs):
         product = Product.objects.all()
@@ -44,9 +55,6 @@ class StudiosOverview(View):
         context.update(sidebar_context)
         return render(request, 'musicstudios/overview.html', context)
 
-class OrderDetails(CreateView):
-    form_class = forms.OrderForm
-    template_name = 'musicstudios/order_details.html'
 
 class CustomerDetails(CreateView):
     form_class = forms.CustomerForm

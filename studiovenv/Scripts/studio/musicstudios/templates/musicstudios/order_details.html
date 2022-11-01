@@ -1,6 +1,8 @@
 {% extends 'index.html' %}
 {% block content %}
 {% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
 <div class="content-start flex-auto mt-10 pl-4 mx-auto">
     <div class="contentborder">
         <span class="flex justify-between">  
@@ -15,7 +17,7 @@
     
     <span class="flex-auto flex-col">
             <form class="py-2" action="" method="post">
-                {% csrf_token %}
+                {% csrf_token %}  
                 {{ form|crispy }}
                 <span class="flex justify-end">  
                     <input class="lewny_button my-4" type="submit" value="Continue" onclick="window.location.href='#';return false;">

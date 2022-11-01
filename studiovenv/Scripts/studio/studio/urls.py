@@ -15,6 +15,7 @@ urlpatterns = [
     path('music/', include('music.urls')),
     path('merch/', include('merch.urls')),
     path('musicstudios/', include('musicstudios.urls')),
+    
 ]
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
