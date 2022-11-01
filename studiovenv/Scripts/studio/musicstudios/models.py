@@ -46,7 +46,7 @@ class Price(models.Model):
         return "{0:.2f}".format(self.price / 100)
 
     def __str__(self):
-        return '%s %s' % (self.price, self.price_description)
+        return '%s %s %s %s' % ("$", self.price, "-", self.price_description)
 
 class Order(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Package Type: ')

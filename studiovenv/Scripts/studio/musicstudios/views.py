@@ -1,8 +1,10 @@
 from django.views.generic.base import View
 from django.shortcuts import render, redirect, HttpResponse
+from django.urls import reverse_lazy, reverse
 import stripe
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.views.decorators.csrf import csrf_exempt
 from .models import Price, Product, Order, Customer
 from . import forms
 from .forms import OrderForm
@@ -35,6 +37,29 @@ def prices(request):
     form = OrderForm(request.GET)
     return HttpResponse(form['prices'])
 
+def custupload(request):
+    if request.POST:
+        form = forms.CustomerForm(request.POST, request.FILES)
+        success_url = reverse_lazy('orderdetails')
+        print(request.FILES)
+        if form.is_valid():
+            form.save()
+        else:
+            ctx = {'form' : form}
+            return HttpResponseRedirect(request, 'musicstudios/customer_details.html', ctx)
+        return HttpResponseRedirect(success_url)
+
+def orderupload(request):
+    if request.POST:
+        form = OrderForm()
+        success_url = "{% url 'create-checkout-session' price.id %}"
+        if form.is_valid():
+            form.save()
+        else:
+            ctx = {'form' : form}
+            return HttpResponseRedirect(request, 'musicstudios/order_details.html', ctx)
+        return HttpResponseRedirect(success_url)
+
 class StudiosOverview(View):
     def get_context_data(self, **kwargs):
         product = Product.objects.all()
@@ -60,24 +85,31 @@ class CustomerDetails(CreateView):
     form_class = forms.CustomerForm
     template_name = 'musicstudios/customer_details.html'
     
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class CreateCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):
-        price = Price.objects.get(id=self.kwargs["pk"])
-        YOUR_DOMAIN = "http://127.0.0.1:8000"  # change in production
+        product_id = self.kwargs["pk"]
+        product = Product.objects.get(id=product_id)
+        domain = "https://lewnytoonsstudios.com"
+        if settings.DEBUG:
+            domain = "http://127.0.0.1:8000"
         checkout_session = stripe.checkout.Session.create(
-            payment_method_types=['card'],
             line_items=[
                 {
-                    'price': price.stripe_price_id,
+                    # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                    'price': product.prices.stripe_price_id,
                     'quantity': 1,
                 },
             ],
             mode='payment',
-            success_url=YOUR_DOMAIN + '/success/',
-            cancel_url=YOUR_DOMAIN + '/cancel/',
+            success_url=domain + '/success.html',
+            cancel_url=domain + '/cancel.html',
+            automatic_tax={'enabled': True},
         )
-        return redirect(checkout_session.url)
+        return JsonResponse({
+            'id' : checkout_session.id
+        })
 
 class SuccessView(TemplateView):
     template_name = "success.html"

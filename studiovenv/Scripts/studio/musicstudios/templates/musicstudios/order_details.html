@@ -16,11 +16,11 @@
     </div>
     
     <span class="flex-auto flex-col">
-            <form class="py-2" action="" method="post">
+            <form class="py-2" method="post" action="{% url 'orderupload' %}" enctype="multipart/form-data">
                 {% csrf_token %}  
                 {{ form|crispy }}
                 <span class="flex justify-end">  
-                    <input class="lewny_button my-4" type="submit" value="Continue" onclick="window.location.href='#';return false;">
+                    <button class="lewny_button my-4" type="submit">Review Your Order</button>
                 </span>
             </form>
     </span>

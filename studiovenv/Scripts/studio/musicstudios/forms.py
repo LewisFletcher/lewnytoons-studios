@@ -5,7 +5,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from dynamic_forms import DynamicField, DynamicFormMixin
 
-class OrderForm(DynamicFormMixin, forms.Form):
+class OrderForm(DynamicFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
@@ -21,7 +21,7 @@ class OrderForm(DynamicFormMixin, forms.Form):
     
     product = forms.ModelChoiceField(
         queryset=Product.objects.all(),
-        initial=None,
+        initial=Product.objects.first(),
         label= "Select a Product:",
         widget= forms.RadioSelect(
             attrs={
@@ -42,18 +42,23 @@ class OrderForm(DynamicFormMixin, forms.Form):
 
     cust_requests = forms.CharField(
         label = 'Enter any specific requests here: (Leave blank if none): ',
-        required=False
+        required=False,
+        max_length=500
     )
 
     reference_track = forms.FileField(
         label = 'Upload a reference track, if applicable.',
-        required=False
+        required=False,
     )
 
     music_file = forms.FileField(
         label = 'Upload your project here. Please ensure project has been zipped prior to uploading.',
         required=True
     )
+
+    class Meta:
+        model= Order
+        fields = ['product', 'prices', 'cust_requests', 'reference_track', 'music_file']
 
 class CustomerForm(forms.ModelForm):
     
