@@ -16,7 +16,7 @@
     </div>
     
     <span class="flex-auto flex-col">
-            <form class="py-2" method="post" action="{% url 'orderupload' %}" enctype="multipart/form-data">
+            <form class="py-2" method=POST action="{% url 'orderupload' %}" enctype="multipart/form-data">
                 {% csrf_token %}  
                 {{ form|crispy }}
                 <span class="flex justify-end">  

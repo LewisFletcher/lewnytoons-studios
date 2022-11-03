@@ -54,5 +54,5 @@ class Order(models.Model):
     cust_requests = models.TextField(max_length=500, null=True, verbose_name='Enter any specific requests here: (Leave blank if none): ')
     reference_track = models.CharField(max_length=200, null=True, verbose_name='Reference Track (Leave blank if none): ')
     music_file = models.FileField(upload_to='studio_orders/', verbose_name="Upload zipped music file: ")
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='cust_details')
     order_date = models.DateTimeField(auto_now_add=True)

@@ -14,7 +14,7 @@
         </p>
     </div>
     <span class="flex-auto flex-col">
-            <form method="post" class="py-2" action="{% url 'custupload' %}" enctype="multipart/form-data"; return False;>
+            <form method="post" class="py-2" action="{% url 'custupload' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <span class="flex justify-end">  

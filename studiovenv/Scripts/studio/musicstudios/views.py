@@ -1,5 +1,5 @@
 from django.views.generic.base import View
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.urls import reverse_lazy, reverse
 import stripe
 from django.conf import settings
@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Price, Product, Order, Customer
 from . import forms
 from .forms import OrderForm
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, DetailView
 
 
 sidebar_context = {
@@ -35,15 +35,16 @@ def orderdetails(request):
 
 def prices(request):
     form = OrderForm(request.GET)
-    return HttpResponse(form['prices'])
+    return HttpResponse(form['price'])
 
 def custupload(request):
     if request.POST:
         form = forms.CustomerForm(request.POST, request.FILES)
         success_url = reverse_lazy('orderdetails')
-        print(request.FILES)
+        print(request.session['customer_id'])
         if form.is_valid():
-            form.save()
+            customer = form.save()
+            request.session['customer_id'] = customer.id
         else:
             ctx = {'form' : form}
             return HttpResponseRedirect(request, 'musicstudios/customer_details.html', ctx)
@@ -51,14 +52,17 @@ def custupload(request):
 
 def orderupload(request):
     if request.POST:
-        form = OrderForm()
-        success_url = "{% url 'create-checkout-session' price.id %}"
+        form = OrderForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            cust = request.session.get('customer_id') 
+            instance.customer_id = cust
+            instance.save(request)
+            request.session['order_id'] = instance.id
+            return redirect('order-review', instance.id)
         else:
             ctx = {'form' : form}
-            return HttpResponseRedirect(request, 'musicstudios/order_details.html', ctx)
-        return HttpResponseRedirect(success_url)
+            return HttpResponseRedirect(request, 'musicstudios/order_details.html', ctx)        
 
 class StudiosOverview(View):
     def get_context_data(self, **kwargs):
@@ -70,8 +74,6 @@ class StudiosOverview(View):
             "prices": prices
         })
         return context
-    
-    
     
     def get(self, request):
         context = {
@@ -86,6 +88,20 @@ class CustomerDetails(CreateView):
     template_name = 'musicstudios/customer_details.html'
     
 stripe.api_key = settings.STRIPE_SECRET_KEY
+
+class OrderReview(DetailView):
+    model = Order
+    template_name = 'musicstudios/order_review.html'
+    extra_context = sidebar_context
+    def get_context_data(self, **kwargs):
+        context = super(OrderReview, self).get_context_data(**kwargs)
+        order = self.get_object()
+        customer = Customer.objects.get(pk=order.customer_id)
+        context['customer'] = customer
+        return context
+
+
+
 
 class CreateCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):

@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from dynamic_forms import DynamicField, DynamicFormMixin
+from django.shortcuts import redirect
 
 class OrderForm(DynamicFormMixin, forms.ModelForm):
 
@@ -18,6 +19,7 @@ class OrderForm(DynamicFormMixin, forms.ModelForm):
     def initial_price(form):
         product = form['product'].value()
         return Price.objects.filter(product=product).first()
+            
     
     product = forms.ModelChoiceField(
         queryset=Product.objects.all(),
@@ -26,14 +28,14 @@ class OrderForm(DynamicFormMixin, forms.ModelForm):
         widget= forms.RadioSelect(
             attrs={
                 'hx-get' : 'prices',
-                'hx-target' : '#prices',
+                'hx-target' : '#price',
                 'hx-swap' : 'innerHTML'
             }),
         required=True,
 
     )
 
-    prices = DynamicField(
+    price = DynamicField(
         forms.ModelChoiceField,
         queryset=price_choices,
         initial=initial_price,
@@ -58,7 +60,7 @@ class OrderForm(DynamicFormMixin, forms.ModelForm):
 
     class Meta:
         model= Order
-        fields = ['product', 'prices', 'cust_requests', 'reference_track', 'music_file']
+        fields = ['product', 'price', 'cust_requests', 'reference_track', 'music_file']
 
 class CustomerForm(forms.ModelForm):
     

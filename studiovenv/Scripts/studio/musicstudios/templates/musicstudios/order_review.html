@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+<div class="content-start flex-auto mt-10 pl-4 mx-auto">
+    <div class="contentborder">
+        <span class="flex justify-between">  
+        <h2 class="text-2xl font-bold mb-4" id="background">Review Your Order</h2>
+        <a href="{% url 'musicstudios' %}"><button class="lewny_button my-2">Cancel Order</button></a>
+        </span>
+        <p class="pb-4 font-lg">
+            Thank you for choosing LewnyToons Studios for your music needs! Please review your order and ensure it is accurate. 
+            Projects containing more stems than the chosen price point will be refunded and the order will be cancelled. Your payment will be required on the next page.
+        </p>
+    </div>
+
+    <h3>Customer Details</h3>
+    <p>Name: {{ customer.first_name }} {{ customer.last_name }}</p>
+    
+    
+    <h3>Order Details</h3>
+    <p>You have chosen {{ order.product }} at the following price: {{ order.price }}<p>
+    <p>You made the following requests: {{ order.cust_requests }}</p>
+
+
+
+
+{% endblock %}
