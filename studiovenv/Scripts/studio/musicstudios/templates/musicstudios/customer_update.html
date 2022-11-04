@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="content-start flex-auto mt-10 pl-4 mx-auto">
+    <div class="contentborder">
+        <span class="flex justify-between">  
+            <h2 class="text-2xl font-bold mb-4" id="background">Update Personal Information</h2>
+            <a class="pr-4" href="{% url 'orderdelete' %}"><button class="lewny_button my-2">Cancel Order</button></a>
+        </span>
+        <p class="pb-4 font-lg">
+            Update your details below and click "Return to Order Review to continue with your order."
+        </p>
+    </div>
+    <span class="flex-auto flex-col">
+            <form method="post" class="py-2" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <span class="flex justify-end">  
+                <button class="lewny_button my-4" type="submit">Return to Order Review</button>
+                </span>
+            </form>
+    </span>
+</div>
+
+{% endblock %}

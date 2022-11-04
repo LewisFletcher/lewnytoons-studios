@@ -5,7 +5,7 @@
     <div class="contentborder">
         <span class="flex justify-between">
         <h2 class="text-2xl font-bold mb-4" id="background">Services Offered</h2>
-        <button class="lewny_button mb-2"><a href="{% url 'custdetails' %}">Begin Your Order</a></button>
+        <button class="lewny_button mb-2 pr-4"><a href="{% url 'custdetails' %}">Begin Your Order</a></button>
         </span>
         <p class="pb-4 font-lg">
             LewnyToons Studios offers a variety of services to assist you with making your music sound the best it can.
@@ -14,50 +14,23 @@
             engineering, and can quickly take your audio from rough around the edges to a radio-ready sound. For more details and pricing, check out the packages offered below.
         </p>
     </div>
-
-    <div class="contentborder">
-        <h3 class="text-2xl font-bold mb-4" id="mnmpack">Mixing & Mastering Packages</h3>
-        <h4 class="font-semibold mb-4">Packages are based on the number of stems contained within your project. Prices reflected include both mixing and mastering services. </h4>
-            <ul>
+{% if products %}
+    {% for product in products %}
+    <div class="contentborder"> 
+        <h3 class="text-2xl font-bold mb-4" id="mnmpack">{{ product.name }}</h3>
+        <h4 class="font-semibold mb-2">{{ product.product_description }}</h4>
+        <h5 class="font-bold text-xl mb-2">Price Options: </h5>
+        <ul class="list-disc pl-4">
+        {% for price in product.prices.all %}
             <li>
-                <strong>$25 - 1-5 stems</strong>
+                <p><strong>${{ price.get_display_price }}</strong> - {{ price.price_description }}
             </li>
-            <li>
-                <strong>$45 - 5-10 stems</strong>
-            </li>
-            <li>
-                <strong>$65 - 10-20 stems</strong>
-            </li>
-            <li>
-                <strong>$80 - 20+ stems</strong>
-            </li>
+        {% endfor %}
         </ul>
     </div>
-    <div class="contentborder">
-        <h3 class="text-2xl font-bold mb-4" id="mpack">Mastering Only Packages</h2>
-        <h4 class="font-semibold mb-4">Packages are based on the number of songs you want mastered. Prices reflected include mastering services only. </h4>
-            <ul>
-            <li>
-                <strong>$10 - 1 song</strong>
-            </li>
-            <li>
-                <strong>$20 - 2-4 songs</strong>
-            </li>
-            <li>
-                <strong>$40 - 4-6 songs</strong>
-            </li>
-            <li>
-                <strong>$50 - 6-10 songs</strong>
-            </li>
-        </ul>
-    </div>
-    <div class="contentborder">
-        <h3 class="text-2xl font-bold mb-4" id="feature">Request a Feature</h2>
-        <h4 class="font-semibold mb-4">Looking for an artist to feature on your song? Send LewnyToons a message and request a feature on your next track! </h4>
-    </div>
-    <div class="contentborder">
-        <h3 class="text-2xl font-bold mb-4" id="tutor">Request a Tutor</h2>
-        <h4 class="font-semibold mb-4">Want to learn sound engineering but not sure where to start? Request a tutor sessions today. </h4>
-    </div>
+    {% endfor %}
+{% else %}
+<p>No products to display.</p>
+{% endif %}
 </div>
 {% endblock %}

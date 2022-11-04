@@ -5,6 +5,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from dynamic_forms import DynamicField, DynamicFormMixin
 from django.shortcuts import redirect
+from django.core.exceptions import ValidationError
 
 class OrderForm(DynamicFormMixin, forms.ModelForm):
 
@@ -48,8 +49,8 @@ class OrderForm(DynamicFormMixin, forms.ModelForm):
         max_length=500
     )
 
-    reference_track = forms.FileField(
-        label = 'Upload a reference track, if applicable.',
+    reference_track = forms.CharField(
+        label = 'Provide a link to a reference track, if applicable.',
         required=False,
     )
 
@@ -71,3 +72,23 @@ class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = ['first_name', 'last_name', 'phone', 'email']
+
+class CustomerUpdateForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(CustomerUpdateForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+
+    class Meta:
+        model = Customer
+        fields = ['first_name', 'last_name', 'phone', 'email']
+
+class OrderUpdateForm(OrderForm):
+
+    def __init__(self, *args, **kwargs):
+        super(OrderUpdateForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+
+    class Meta:
+        model= Order
+        fields = ['product', 'price', 'cust_requests', 'reference_track', 'music_file']

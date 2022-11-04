@@ -5,6 +5,9 @@ from .views import (
     CancelView,
     CreateCheckoutSessionView
 )
+
+#Still Need: FAQ's, Cancel Confirmation page, Before/After page, Refund Policy (could be in FAQ's), Order #
+
 urlpatterns = [
     path('', views.StudiosOverview.as_view(), name='musicstudios'),
     path('order-details/', views.orderdetails, name='orderdetails'),
@@ -15,5 +18,8 @@ urlpatterns = [
     path('cancel/', CancelView.as_view(), name='cancel'),
     path('success/', SuccessView.as_view(), name='success'),
     path('order-review/<int:pk>', views.OrderReview.as_view(), name='order-review'),
+    path('customer-details/<int:pk>/update', views.CustomerUpdate.as_view(), name='custupdate'),
+    path('order-details/<int:pk>/update', views.OrderUpdate.as_view(), name='orderupdate'),
+    path('delete/', views.orderdelete, name='orderdelete'),
     path('create-checkout-session/<int:pk>', CreateCheckoutSessionView.as_view(), name='create-checkout-session')
 ]

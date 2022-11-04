@@ -8,7 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Price, Product, Order, Customer
 from . import forms
 from .forms import OrderForm
-from django.views.generic import TemplateView, CreateView, DetailView
+from django.views.generic import TemplateView, CreateView, DetailView, UpdateView
+from .forms import CustomerUpdateForm, OrderUpdateForm
 
 
 sidebar_context = {
@@ -62,22 +63,25 @@ def orderupload(request):
             return redirect('order-review', instance.id)
         else:
             ctx = {'form' : form}
-            return HttpResponseRedirect(request, 'musicstudios/order_details.html', ctx)        
+            return HttpResponseRedirect(request, 'musicstudios/order_details.html', ctx) 
+
+def orderdelete(request):
+    if request.session.get('customer_id') != None:
+        instance = request.session.get('customer_id')
+        customer = Customer.objects.filter(id=instance)
+        customer.delete()
+        return redirect('musicstudios')
+    else:
+        return redirect('musicstudios')
 
 class StudiosOverview(View):
-    def get_context_data(self, **kwargs):
-        product = Product.objects.all()
-        prices = Price.objects.all()
-        context = super(StudiosOverview, self).get_context_data(**kwargs)
-        context.update({
-            "product": product,
-            "prices": prices
-        })
-        return context
-    
     def get(self, request):
+        products = Product.objects.all()
+        price = Price.objects.all()
         context = {
-            'page_headline' : 'Studio Services'
+            'page_headline' : 'Studio Services',
+            "products" : products,
+            "prices": price,
         }
         context.update(sidebar_context)
         return render(request, 'musicstudios/overview.html', context)
@@ -100,8 +104,49 @@ class OrderReview(DetailView):
         context['customer'] = customer
         return context
 
+class CustomerUpdate(UpdateView):
+    form_class = forms.CustomerUpdateForm
+    template_name = 'musicstudios/customer_update.html'
+    
+    def get(self, request, pk):
+        order_id = request.session.get('order_id')
+        customer = get_object_or_404(Customer, id=pk)
+        form = CustomerUpdateForm(instance=customer)
+        ctx = {'form': form, 'order_id' : order_id}
+        return render(request, self.template_name, ctx)
 
+    def post(self, request, pk):
+        customer = get_object_or_404(Customer, id=pk)
+        form = CustomerUpdateForm(request.POST, instance=customer)
+        if form.is_valid():
+            form.save(commit=True)
+            pk = request.session.get('order_id')
+            return redirect('order-review', pk)
+        else:
+            ctx = {'form': form}
+            return render(request, self.template, ctx)
 
+class OrderUpdate(UpdateView):
+    form_class = forms.OrderUpdateForm
+    template_name = 'musicstudios/order_update.html'
+
+    def get(self, request, pk):
+        order_id = request.session.get('order_id')
+        order = get_object_or_404(Order, id=pk)
+        form = OrderUpdateForm(instance=order)
+        ctx = {'form': form, 'order_id' : order_id}
+        return render(request, self.template_name, ctx)
+
+    def post(self, request, pk):
+        order = get_object_or_404(Order, id=pk)
+        form = OrderUpdateForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save(commit=True)
+            pk = request.session.get('order_id')
+            return redirect('order-review', pk)
+        else:
+            ctx = {'form': form}
+            return render(request, self.template, ctx)
 
 class CreateCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):

@@ -8,17 +8,15 @@
         <a class="pr-4" href="{% url 'orderdelete' %}"><button class="lewny_button my-2">Cancel Order</button></a>
         </span>
         <p class="pb-4 font-lg">
-            Thank you for choosing LewnyToons Studios for your music needs! Please fill out the details below before 
-            proceeding to your order. This will help us get in touch with you regarding your purchase. The email address you provide 
-            will be used to send the final mix back to you.
+            Update your order details below and click "Return to Order Review to continue with your order."
         </p>
     </div>
     <span class="flex-auto flex-col">
-            <form method="post" class="py-2" action="{% url 'custupload' %}" enctype="multipart/form-data">
+            <form method="post" class="py-2" action="" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <span class="flex justify-end">  
-                <button class="lewny_button my-4" type="submit">Continue to Order</button>
+                <button class="lewny_button my-4" type="submit">Return to Order Review</button>
                 </span>
             </form>
     </span>
