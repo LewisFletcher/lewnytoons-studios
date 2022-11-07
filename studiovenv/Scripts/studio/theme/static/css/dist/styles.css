@@ -913,22 +913,6 @@ select {
   margin-bottom: 0.5rem;
 }
 
-.mr-4 {
-  margin-right: 1rem;
-}
-
-.mr-8 {
-  margin-right: 2rem;
-}
-
-.ml-4 {
-  margin-left: 1rem;
-}
-
-.mb-10 {
-  margin-bottom: 2.5rem;
-}
-
 .block {
   display: block;
 }
@@ -1075,20 +1059,12 @@ select {
   align-content: flex-start;
 }
 
-.items-start {
-  align-items: flex-start;
-}
-
 .items-end {
   align-items: flex-end;
 }
 
 .items-center {
   align-items: center;
-}
-
-.justify-start {
-  justify-content: flex-start;
 }
 
 .justify-end {
@@ -1101,10 +1077,6 @@ select {
 
 .justify-between {
   justify-content: space-between;
-}
-
-.justify-items-center {
-  justify-items: center;
 }
 
 .gap-4 {
@@ -1167,10 +1139,6 @@ select {
   border-width: 4px;
 }
 
-.border {
-  border-width: 1px;
-}
-
 .border-l {
   border-left-width: 1px;
 }
@@ -1219,16 +1187,6 @@ select {
 .bg-violet-900 {
   --tw-bg-opacity: 1;
   background-color: rgb(76 29 149 / var(--tw-bg-opacity));
-}
-
-.bg-slate-700 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(51 65 85 / var(--tw-bg-opacity));
-}
-
-.bg-red-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(248 113 113 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-25 {
@@ -1307,11 +1265,6 @@ select {
   padding-bottom: 0.25rem;
 }
 
-.px-3 {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
 .pb-10 {
   padding-bottom: 2.5rem;
 }
@@ -1380,10 +1333,6 @@ select {
   padding-right: 1rem;
 }
 
-.pr-8 {
-  padding-right: 2rem;
-}
-
 .pl-8 {
   padding-left: 2rem;
 }
@@ -1398,10 +1347,6 @@ select {
 
 .align-middle {
   vertical-align: middle;
-}
-
-.align-text-top {
-  vertical-align: text-top;
 }
 
 .align-\[-5px\] {
@@ -1520,34 +1465,9 @@ select {
   color: rgb(209 213 219 / var(--tw-text-opacity));
 }
 
-.underline {
-  -webkit-text-decoration-line: underline;
-          text-decoration-line: underline;
-}
-
-.underline-offset-0 {
-  text-underline-offset: 0px;
-}
-
-.underline-offset-1 {
-  text-underline-offset: 1px;
-}
-
-.underline-offset-2 {
-  text-underline-offset: 2px;
-}
-
-.underline-offset-auto {
-  text-underline-offset: auto;
-}
-
 .antialiased {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.opacity-25 {
-  opacity: 0.25;
 }
 
 .shadow-lg {

@@ -11,6 +11,7 @@ from .forms import OrderForm
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView
 from .forms import CustomerUpdateForm, OrderUpdateForm
 
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 sidebar_context = {
     'sidebarhead' : 'Quick Find',
@@ -150,30 +151,48 @@ class OrderUpdate(UpdateView):
 
 class CreateCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):
-        product_id = self.kwargs["pk"]
-        product = Product.objects.get(id=product_id)
+        order_id = self.kwargs['pk']
+        order = Order.objects.get(id=order_id)
+        stripe.api_key = settings.STRIPE_SECRET_KEY
         domain = "https://lewnytoonsstudios.com"
         if settings.DEBUG:
             domain = "http://127.0.0.1:8000"
         checkout_session = stripe.checkout.Session.create(
+            customer_email= order.customer.email,
             line_items=[
                 {
-                    # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-                    'price': product.prices.stripe_price_id,
+                    
+                    'price': order.price.stripe_price_id,
                     'quantity': 1,
                 },
             ],
             mode='payment',
-            success_url=domain + '/success.html',
-            cancel_url=domain + '/cancel.html',
+            success_url=domain + '/musicstudios/success/',
+            cancel_url=domain + '/musicstudios/cancel/',
             automatic_tax={'enabled': True},
         )
-        return JsonResponse({
-            'id' : checkout_session.id
-        })
+        return redirect(checkout_session.url, code=303)
 
 class SuccessView(TemplateView):
-    template_name = "success.html"
+    template_name = "musicstudios/success.html"
+    def get_context_data(self, **kwargs):
+        context = super(SuccessView, self).get_context_data(**kwargs)
+        order_id = self.request.session.get('order_id')
+        order = Order.objects.get(pk=order_id)
+        product_id = order.product.id
+        product = Product.objects.get(pk=product_id)
+        customer = Customer.objects.get(pk=order.customer.id)
+        context['customer'] = customer
+        context['product'] = product
+        return context
+    
 
 class CancelView(TemplateView):
-    template_name = "cancel.html"
+    template_name = "musicstudios/cancel.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(CancelView, self).get_context_data(**kwargs)
+        order = self.get_object()
+        customer = Customer.objects.get(pk=order.customer_id)
+        context['customer'] = customer
+        return context

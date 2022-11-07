@@ -59,9 +59,12 @@
         </span>
     
     </div>
-    <span class="flex justify-end pr-4">  
-        <button class="lewny_button my-2" type="submit">Continue to Payment</button>
-    </span>        
+    <form action="{% url 'create-checkout-session' order.id %}" method="POST">
+        {% csrf_token %}
+        <span class="flex justify-end pr-4">  
+            <button class="lewny_button my-2" type="submit" id="checkout-button">Continue to Payment</button>
+        </span>
+    </form>        
 </div>
 
 

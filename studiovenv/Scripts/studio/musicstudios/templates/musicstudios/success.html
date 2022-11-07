@@ -1,16 +1,6 @@
-<html>
+{% extends 'index.html' %}
 
-<head>
-    <title>Thanks for your order!</title>
-</head>
+{% block content %}
+    <h1>Thank you for your order, {{ customer.first_name }}!</h1>
 
-<body>
-    <section>
-        <p>
-            We appreciate you gave us a chance and made a purchase on our website.
-        </p>
-        <a href="#">Test again</a>
-    </section>
-</body>
-
-</html>
+{% endblock %}
