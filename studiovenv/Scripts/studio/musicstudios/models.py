@@ -57,3 +57,4 @@ class Order(models.Model):
     music_file = models.FileField(upload_to='studio_orders/', verbose_name="Upload zipped music file: ")
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='cust_details')
     order_date = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default= False)

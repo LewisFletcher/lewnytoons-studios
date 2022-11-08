@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 EMAIL_HOST = config('EMAIL_HOST', default='localhost')
 EMAIL_PORT = config('EMAIL_PORT', default=25, cast=int)
-
+STRIPE_WEBHOOK_SECRET = 'whsec_68357646872a151e70e5136e483732c6de82e6b422dfd1e79eb098d04c699cce'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

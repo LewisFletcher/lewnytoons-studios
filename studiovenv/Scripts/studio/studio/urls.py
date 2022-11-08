@@ -4,6 +4,7 @@ from django.views.static import serve
 from django.conf import settings
 import os
 from django.conf.urls.static import static
+from musicstudios.views import stripe_webhook
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -15,6 +16,7 @@ urlpatterns = [
     path('music/', include('music.urls')),
     path('merch/', include('merch.urls')),
     path('musicstudios/', include('musicstudios.urls')),
+    path('webhooks/stripe/', stripe_webhook, name='stripe-webhook'),
     
 ]
 

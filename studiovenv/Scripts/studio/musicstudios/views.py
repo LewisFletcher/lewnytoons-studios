@@ -17,16 +17,16 @@ sidebar_context = {
     'sidebarhead' : 'Quick Find',
     'sidebar1' : 'LewnyToons - About',
     'sidebar2' : 'Services Offered',
-    'sidebar3' : 'Mixing & Mastering',
-    'sidebar4' : 'Mastering Only',
-    'sidebar5' : 'Request a Feature',
-    'sidebar6' : 'Request a Tutor',
+    'sidebar3' : 'FAQ\'s',
+    'sidebar4' : 'Before/After Examples',
+    'sidebar5' : 'Feature Request',
+    'sidebar6' : 'Tutor Request',
     'sb1url' : '/music#about',
-    'sb2url' : '#services',
-    'sb3url' : '#mnmpack',
-    'sb4url' : '#mpack',
-    'sb5url' : '#feature',
-    'sb6url' : '#tutor',
+    'sb2url' : '/studios#services',
+    'sb3url' : '#',
+    'sb4url' : '#',
+    'sb5url' : '#',
+    'sb6url' : '#',
 }
  
 def orderdetails(request):
@@ -43,10 +43,10 @@ def custupload(request):
     if request.POST:
         form = forms.CustomerForm(request.POST, request.FILES)
         success_url = reverse_lazy('orderdetails')
-        print(request.session['customer_id'])
         if form.is_valid():
             customer = form.save()
             request.session['customer_id'] = customer.id
+            print(request.session['customer_id'])
         else:
             ctx = {'form' : form}
             return HttpResponseRedirect(request, 'musicstudios/customer_details.html', ctx)
@@ -74,6 +74,41 @@ def orderdelete(request):
         return redirect('musicstudios')
     else:
         return redirect('musicstudios')
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
+        )
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponse(status=400)
+
+    # Handle the checkout.session.completed event
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        customer_email = session["customer_details"]["email"]
+        line_items = stripe.checkout.Session.list_line_items(session["id"])
+        print(line_items)
+        stripe_price_id = line_items["data"][0]["price"]["id"]
+        price = Price.objects.get(stripe_price_id=stripe_price_id)
+        total_paid_cents = line_items["data"][0]["amount_total"]
+        total_paid_dollars = total_paid_cents / 100
+        request.session['total_paid'] = total_paid_dollars
+        #order_id = request.session.get('order_id')
+        #order = Order.objects.get(id=order_id)
+        #order.status = True
+        #order.save()
+        #print(order.status)
+
+        # TODO - send an email to the customer
+    return HttpResponse(status=200)
 
 class StudiosOverview(View):
     def get(self, request):
@@ -114,6 +149,7 @@ class CustomerUpdate(UpdateView):
         customer = get_object_or_404(Customer, id=pk)
         form = CustomerUpdateForm(instance=customer)
         ctx = {'form': form, 'order_id' : order_id}
+        ctx.update(sidebar_context)
         return render(request, self.template_name, ctx)
 
     def post(self, request, pk):
@@ -136,6 +172,7 @@ class OrderUpdate(UpdateView):
         order = get_object_or_404(Order, id=pk)
         form = OrderUpdateForm(instance=order)
         ctx = {'form': form, 'order_id' : order_id}
+        ctx.update(sidebar_context)
         return render(request, self.template_name, ctx)
 
     def post(self, request, pk):
@@ -147,6 +184,7 @@ class OrderUpdate(UpdateView):
             return redirect('order-review', pk)
         else:
             ctx = {'form': form}
+            ctx.update(sidebar_context)
             return render(request, self.template, ctx)
 
 class CreateCheckoutSessionView(View):
@@ -158,6 +196,9 @@ class CreateCheckoutSessionView(View):
         if settings.DEBUG:
             domain = "http://127.0.0.1:8000"
         checkout_session = stripe.checkout.Session.create(
+            payment_intent_data={
+                'metadata' : {'order_id': order_id}
+            },
             customer_email= order.customer.email,
             line_items=[
                 {
@@ -166,15 +207,21 @@ class CreateCheckoutSessionView(View):
                     'quantity': 1,
                 },
             ],
+            metadata= 
+                {
+                    'order_id': order.id
+                },
             mode='payment',
             success_url=domain + '/musicstudios/success/',
             cancel_url=domain + '/musicstudios/cancel/',
             automatic_tax={'enabled': True},
         )
+        print(order_id)
         return redirect(checkout_session.url, code=303)
 
 class SuccessView(TemplateView):
     template_name = "musicstudios/success.html"
+    extra_context = sidebar_context
     def get_context_data(self, **kwargs):
         context = super(SuccessView, self).get_context_data(**kwargs)
         order_id = self.request.session.get('order_id')
@@ -182,17 +229,21 @@ class SuccessView(TemplateView):
         product_id = order.product.id
         product = Product.objects.get(pk=product_id)
         customer = Customer.objects.get(pk=order.customer.id)
+        total_paid = self.request.session.get('total_paid')
+        print(total_paid)
         context['customer'] = customer
         context['product'] = product
+        context['order'] = order
+        context['order_total'] = total_paid
         return context
     
 
 class CancelView(TemplateView):
     template_name = "musicstudios/cancel.html"
-
+    extra_context = sidebar_context
     def get_context_data(self, **kwargs):
         context = super(CancelView, self).get_context_data(**kwargs)
         order = self.get_object()
-        customer = Customer.objects.get(pk=order.customer_id)
+        customer = Customer.objects.get(pk=order.customer.id)
         context['customer'] = customer
         return context
