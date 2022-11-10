@@ -19,9 +19,9 @@ sidebar_context = {
     'sidebar4' : 'I\'m Feeling Lucky',
     'sidebar5' : 'Mixing/Mastering Services',
     'sidebar6' : 'Contact Info',
-    'sb1url' : '#about',
-    'sb2url' : '#albums',
-    'sb3url' : '#singles',
+    'sb1url' : '/music#about',
+    'sb2url' : '/music#albums',
+    'sb3url' : '/music#singles',
     
     'sb5url' : '/musicstudios',
     'sb6url' : '#',
@@ -39,7 +39,7 @@ class MusicView(ListView):
         context = {
             'album_list' : album_list,
             'single_list' : single_list,
-            'sb4url' : (ran_num + '/play'),
+            'sb4url' : ('/music/' + ran_num + '/play'),
         }
         context.update(sidebar_context)
         return render(request, 'music/all_music.html', context)
@@ -50,7 +50,7 @@ class AlbumDetailView(DetailView):
     extra_context = sidebar_context
     max_value = Song.total_songs(self=Song)
     ran_num = str(random.randint(1, max_value))
-    sb4_url = (ran_num + '/random')
+    sb4_url = ('/music/' + ran_num + '/play')
     extra_context.update({'sb4url' : sb4_url})   
     def get_context_data(self, **kwargs):
         context = super(AlbumDetailView, self).get_context_data(**kwargs)
@@ -62,7 +62,11 @@ class AlbumDetailView(DetailView):
 class PlaySongView(DetailView):
     model = Song
     template_name = 'music/play_song.html'
-    
+    extra_context = sidebar_context
+    max_value = Song.total_songs(self=Song)
+    ran_num = str(random.randint(1, max_value))
+    sb4_url = ('/music/' + ran_num + '/play')
+    extra_context.update({'sb4url' : sb4_url})   
     def get_context_data(self, **kwargs):
         context = super(PlaySongView, self).get_context_data(**kwargs)
         song = self.get_object()

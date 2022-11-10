@@ -7,8 +7,9 @@
         <h2 class="text-2xl font-bold mb-4" id="background">Order Details</h2>
         </span>
         <p class="pb-4 font-lg">
-            Thank you for choosing LewnyToons Studios for your music needs! Please review your order and ensure it is accurate. The finished project will be sent to the email provided. 
-            Projects containing more stems than the chosen price point will be refunded and the order will be cancelled. Your payment will be required on the next page.
+            Thank you for choosing LewnyToons Studios! Below are the details regarding your order. The finished project will be sent to the email shown below. 
+            If you have questions about your order, please check the FAQ portion of the site. If you have any issues or questions not answered by th FAQ's. please 
+            reach out to lewnytoonsmusic@gmail.com.
         </p>
     </div>
 </div>
@@ -34,7 +35,7 @@
             <span class="flex flex-row justify-between">
                 <h3 class="text-xl font-bold mb-1">Order Details</h3>
             </span>
-            <p class="py-1"><strong>Order total:</strong> ${{ order_total }}</p>
+            <p class="py-1"><strong>Order total:</strong> ${{ order.customer_paid }}</p>
             <p class="py-1"><strong>Order includes:</strong> {{ order.price.price_description }}</p>
             {% if order.cust_requests %}
             <p class="py-1"><strong>Requests:</strong> {{ order.cust_requests }}</p>
@@ -52,6 +53,8 @@
             <p class="py-1"><strong>Music file:</strong> No music file uploaded.</p>
             {% endif %}
             <p class="py-1"><strong>Order Date:</strong> {{ order.order_date }}
+            <p class="py-1"><strong>Expected Completion:</strong> {{ order.fullfilment_date }}</p>
         </span>
     </span>
+</div>
 {% endblock %}

@@ -913,6 +913,10 @@ select {
   margin-bottom: 0.5rem;
 }
 
+.mb-40 {
+  margin-bottom: 10rem;
+}
+
 .block {
   display: block;
 }
@@ -1265,6 +1269,11 @@ select {
   padding-bottom: 0.25rem;
 }
 
+.px-40 {
+  padding-left: 10rem;
+  padding-right: 10rem;
+}
+
 .pb-10 {
   padding-bottom: 2.5rem;
 }
@@ -1335,6 +1344,10 @@ select {
 
 .pl-8 {
   padding-left: 2rem;
+}
+
+.pt-8 {
+  padding-top: 2rem;
 }
 
 .text-center {

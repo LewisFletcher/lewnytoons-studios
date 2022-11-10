@@ -58,6 +58,6 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='cust_details')
     order_date = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(default= False)
-    customer_paid = models.IntegerField(default= 0)
+    customer_paid = models.FloatField(default= 0)
     stripe_order_id = models.CharField(max_length=100, null=True)
     fullfilment_date = models.DateTimeField(null=True)

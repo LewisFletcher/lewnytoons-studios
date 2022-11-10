@@ -6,13 +6,16 @@ from .views import (
     CreateCheckoutSessionView
 )
 
-#Still Need: FAQ's, Cancel Confirmation page, Before/After page, Refund Policy (could be in FAQ's), Order #
+#Still Need: Refund Policy (could be in FAQ's), Order Number Function for model, Tutor Session Portal
 
 urlpatterns = [
     path('', views.StudiosOverview.as_view(), name='musicstudios'),
+    path('frequently-asked-questions/', views.FrequentQuestion.as_view(), name='faq'),
+    path('before-after/', views.BeforeAfter.as_view(), name='before_after'),
     path('order-details/', views.orderdetails, name='orderdetails'),
     path('customer-details/', views.CustomerDetails.as_view(), name='custdetails'),
     path('existing-customer/', views.CustomerSelect.as_view(), name='already_cust'),
+    path('begin-order/', views.begin_order, name='begin_order'),
     path('customer-details/upload', views.custupload, name='custupload'),
     path('order-details/prices/', views.prices, name='prices'),
     path('order-details/upload', views.orderupload, name='orderupload'),

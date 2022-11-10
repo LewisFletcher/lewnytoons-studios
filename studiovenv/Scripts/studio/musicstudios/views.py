@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.urls import reverse_lazy, reverse
 import stripe
 from django.conf import settings
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 from .models import Price, Product, Order, Customer
 from . import forms
@@ -12,6 +12,7 @@ from django.views.generic import TemplateView, CreateView, DetailView, UpdateVie
 from .forms import CustomerUpdateForm, OrderUpdateForm
 from django.utils.html import mark_safe
 from django.db.models import Q
+from datetime import datetime, timedelta
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -21,12 +22,12 @@ sidebar_context = {
     'sidebar2' : 'Services Offered',
     'sidebar3' : 'FAQ\'s',
     'sidebar4' : 'Before/After Examples',
-    'sidebar5' : 'Feature Request',
-    'sidebar6' : 'Tutor Request',
+    'sidebar5' : 'Contact',
+    'sidebar6' : 'Tutor Session Portal',
     'sb1url' : '/music#about',
-    'sb2url' : '/studios#services',
-    'sb3url' : '#',
-    'sb4url' : '#',
+    'sb2url' : '/musicstudios#services',
+    'sb3url' : '/musicstudios/frequently-asked-questions',
+    'sb4url' : '/musicstudios/before-after',
     'sb5url' : '#',
     'sb6url' : '#',
 }
@@ -105,12 +106,15 @@ def stripe_webhook(request):
         price = Price.objects.get(stripe_price_id=stripe_price_id)
         total_paid_cents = line_items["data"][0]["amount_total"]
         stripe_order_id = line_items["data"][0]["id"]
-        total_paid_dollars = total_paid_cents / 100
+        total_paid_dollars = float(total_paid_cents / 100)
+        print(total_paid_dollars)
         customer = Customer.objects.get(email= customer_email)
         order = Order.objects.get(customer = customer.id)
         order.status= True
         order.customer_paid = total_paid_dollars
         order.stripe_order_id = stripe_order_id
+        current_time = datetime.now()
+        order.fullfilment_date = current_time + timedelta(days = 7)
         order.save()
 
     #elif event['type'] == 'check'
@@ -130,23 +134,37 @@ class StudiosOverview(View):
         context.update(sidebar_context)
         return render(request, 'musicstudios/overview.html', context)
 
+class FrequentQuestion(TemplateView):
+    template_name = "musicstudios/faq.html"
+    extra_context = sidebar_context
+
+class BeforeAfter(TemplateView):
+    template_name = "musicstudios/before_after.html"
+    extra_context = sidebar_context
+
 
 class CustomerDetails(CreateView):
     form_class = forms.CustomerForm
     template_name = 'musicstudios/customer_details.html'
     
-stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class OrderReview(DetailView):
     model = Order
     template_name = 'musicstudios/order_review.html'
     extra_context = sidebar_context
-    def get_context_data(self, **kwargs):
-        context = super(OrderReview, self).get_context_data(**kwargs)
-        order = self.get_object()
+
+    def get(self, request, pk):
+        order = Order.objects.get(id=pk)
         customer = Customer.objects.get(pk=order.customer_id)
-        context['customer'] = customer
-        return context
+        if order.status == True:
+            return HttpResponseNotFound("Not found.")
+        elif request.session['order_id'] != order.id:
+            return HttpResponseNotFound("Not found.")
+        elif request.session['customer_id'] != order.customer.id:
+            return HttpResponseNotFound("Not found.")
+        else:
+            self.extra_context.update({'customer' : customer, 'order' : order})
+            return render(request, self.template_name, self.extra_context)
 
 class CustomerUpdate(UpdateView):
     form_class = forms.CustomerUpdateForm
@@ -154,11 +172,19 @@ class CustomerUpdate(UpdateView):
     
     def get(self, request, pk):
         order_id = request.session.get('order_id')
+        order = Order.objects.get(id=order_id)
         customer = get_object_or_404(Customer, id=pk)
         form = CustomerUpdateForm(instance=customer)
-        ctx = {'form': form, 'order_id' : order_id}
-        ctx.update(sidebar_context)
-        return render(request, self.template_name, ctx)
+        if order.status == True:
+            return HttpResponseNotFound("Not found.")
+        elif order.customer.id != customer.id:
+            return HttpResponseNotFound("Not found.")
+        elif request.session['customer_id'] != order.customer.id:
+            return HttpResponseNotFound("Not found.")
+        else:
+            ctx = {'form': form, 'order_id' : order_id}
+            ctx.update(sidebar_context)
+            return render(request, self.template_name, ctx)
 
     def post(self, request, pk):
         customer = get_object_or_404(Customer, id=pk)
@@ -174,14 +200,18 @@ class CustomerUpdate(UpdateView):
 class CustomerSelect(TemplateView):
     template_name = "musicstudios/enter_email.html"
     extra_context = sidebar_context
-    def begin_order(self, request):
+
+def begin_order(request):
         strval = request.GET.get('email', False)
         print(strval)
         if strval:
-            customer = Customer.objects.get_object_or_404(email=strval)
-            request.session['customer_id'] = customer.id
-            print(customer.id)
-            return reverse_lazy('orderdetails')
+            customer = Customer.objects.get(email=strval)
+            if customer != None:
+                request.session['customer_id'] = customer.id
+                print(customer.id)
+                return HttpResponseRedirect(reverse('orderdetails'))
+            else:
+                return HttpResponse('Customer could not be found.')
 
 class OrderUpdate(UpdateView):
     form_class = forms.OrderUpdateForm
@@ -191,9 +221,16 @@ class OrderUpdate(UpdateView):
         order_id = request.session.get('order_id')
         order = get_object_or_404(Order, id=pk)
         form = OrderUpdateForm(instance=order)
-        ctx = {'form': form, 'order_id' : order_id}
-        ctx.update(sidebar_context)
-        return render(request, self.template_name, ctx)
+        if order.status == True:
+            return HttpResponseNotFound("Not found.")
+        elif request.session['order_id'] != order.id:
+            return HttpResponseNotFound("Not found.")
+        elif request.session['customer_id'] != order.customer.id:
+            return HttpResponseNotFound("Not found.")
+        else:
+            ctx = {'form': form, 'order_id' : order_id}
+            ctx.update(sidebar_context)
+            return render(request, self.template_name, ctx)
 
     def post(self, request, pk):
         order = get_object_or_404(Order, id=pk)
@@ -247,12 +284,9 @@ class SuccessView(TemplateView):
         product_id = order.product.id
         product = Product.objects.get(pk=product_id)
         customer = Customer.objects.get(pk=order.customer.id)
-        total_paid = self.request.session.get('total_paid')
-        print(total_paid)
         context['customer'] = customer
         context['product'] = product
         context['order'] = order
-        context['order_total'] = total_paid
         return context
 
     #def stripe_webhook(request):
@@ -264,7 +298,12 @@ class CancelView(TemplateView):
     extra_context = sidebar_context
     def get_context_data(self, **kwargs):
         context = super(CancelView, self).get_context_data(**kwargs)
-        order = self.get_object()
+        order_id = self.request.session.get('order_id')
+        order = Order.objects.get(pk=order_id)
         customer = Customer.objects.get(pk=order.customer.id)
+        product_id = order.product.id
+        product = Product.objects.get(pk=product_id)
         context['customer'] = customer
+        context['product'] = product
+        context['order'] = order
         return context

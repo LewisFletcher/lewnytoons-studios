@@ -10,9 +10,9 @@
             Please enter your email address to be redirected to the order screen.
         </p>
     </div>
-<form method="get" action="">
+<form method="get" action="{% url 'begin_order'%}">
     <p>Email:</p>
-    <input name='email' type="text" placeholder="Enter email...">
+    <input name='email' type="email" placeholder="Enter email...">
     <input type="submit" value="Go">
 </form>
 {% endblock %}
