@@ -20,8 +20,8 @@ class OrderForm(DynamicFormMixin, forms.ModelForm):
     def initial_price(form):
         product = form['product'].value()
         return Price.objects.filter(product=product).first()
-            
-    
+
+
     product = forms.ModelChoiceField(
         queryset=Product.objects.all(),
         initial=Product.objects.first(),

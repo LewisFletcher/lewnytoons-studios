@@ -5,3 +5,5 @@ cd studio
 python manage.py tailwind start
 
 Stripe: micl-apuz-gjxg-tvlb-dxas
+
+stripe listen --forward-to localhost:8000/webhooks/stripe/

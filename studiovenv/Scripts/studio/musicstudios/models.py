@@ -7,7 +7,7 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=200, null=False)
     last_name = models.CharField(max_length=200, null=False)
     phone = models.CharField(max_length=10)
-    email = models.EmailField(null=False)
+    email = models.EmailField(null=False, unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -58,3 +58,6 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='cust_details')
     order_date = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(default= False)
+    customer_paid = models.IntegerField(default= 0)
+    stripe_order_id = models.CharField(max_length=100, null=True)
+    fullfilment_date = models.DateTimeField(null=True)

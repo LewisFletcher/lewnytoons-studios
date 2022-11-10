@@ -10,6 +10,8 @@ from . import forms
 from .forms import OrderForm
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView
 from .forms import CustomerUpdateForm, OrderUpdateForm
+from django.utils.html import mark_safe
+from django.db.models import Q
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -49,8 +51,10 @@ def custupload(request):
             print(request.session['customer_id'])
         else:
             ctx = {'form' : form}
-            return HttpResponseRedirect(request, 'musicstudios/customer_details.html', ctx)
+            return render(request, 'musicstudios/customer_details.html', ctx)
         return HttpResponseRedirect(success_url)
+
+
 
 def orderupload(request):
     if request.POST:
@@ -96,16 +100,20 @@ def stripe_webhook(request):
         customer_email = session["customer_details"]["email"]
         line_items = stripe.checkout.Session.list_line_items(session["id"])
         print(line_items)
+        print(customer_email)
         stripe_price_id = line_items["data"][0]["price"]["id"]
         price = Price.objects.get(stripe_price_id=stripe_price_id)
         total_paid_cents = line_items["data"][0]["amount_total"]
+        stripe_order_id = line_items["data"][0]["id"]
         total_paid_dollars = total_paid_cents / 100
-        request.session['total_paid'] = total_paid_dollars
-        #order_id = request.session.get('order_id')
-        #order = Order.objects.get(id=order_id)
-        #order.status = True
-        #order.save()
-        #print(order.status)
+        customer = Customer.objects.get(email= customer_email)
+        order = Order.objects.get(customer = customer.id)
+        order.status= True
+        order.customer_paid = total_paid_dollars
+        order.stripe_order_id = stripe_order_id
+        order.save()
+
+    #elif event['type'] == 'check'
 
         # TODO - send an email to the customer
     return HttpResponse(status=200)
@@ -163,6 +171,18 @@ class CustomerUpdate(UpdateView):
             ctx = {'form': form}
             return render(request, self.template, ctx)
 
+class CustomerSelect(TemplateView):
+    template_name = "musicstudios/enter_email.html"
+    extra_context = sidebar_context
+    def begin_order(self, request):
+        strval = request.GET.get('email', False)
+        print(strval)
+        if strval:
+            customer = Customer.objects.get_object_or_404(email=strval)
+            request.session['customer_id'] = customer.id
+            print(customer.id)
+            return reverse_lazy('orderdetails')
+
 class OrderUpdate(UpdateView):
     form_class = forms.OrderUpdateForm
     template_name = 'musicstudios/order_update.html'
@@ -199,6 +219,9 @@ class CreateCheckoutSessionView(View):
             payment_intent_data={
                 'metadata' : {'order_id': order_id}
             },
+            metadata={
+                "order_id": order_id,
+            },
             customer_email= order.customer.email,
             line_items=[
                 {
@@ -207,16 +230,11 @@ class CreateCheckoutSessionView(View):
                     'quantity': 1,
                 },
             ],
-            metadata= 
-                {
-                    'order_id': order.id
-                },
             mode='payment',
             success_url=domain + '/musicstudios/success/',
             cancel_url=domain + '/musicstudios/cancel/',
             automatic_tax={'enabled': True},
         )
-        print(order_id)
         return redirect(checkout_session.url, code=303)
 
 class SuccessView(TemplateView):
@@ -236,6 +254,9 @@ class SuccessView(TemplateView):
         context['order'] = order
         context['order_total'] = total_paid
         return context
+
+    #def stripe_webhook(request):
+
     
 
 class CancelView(TemplateView):

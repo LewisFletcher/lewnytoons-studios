@@ -12,6 +12,7 @@ urlpatterns = [
     path('', views.StudiosOverview.as_view(), name='musicstudios'),
     path('order-details/', views.orderdetails, name='orderdetails'),
     path('customer-details/', views.CustomerDetails.as_view(), name='custdetails'),
+    path('existing-customer/', views.CustomerSelect.as_view(), name='already_cust'),
     path('customer-details/upload', views.custupload, name='custupload'),
     path('order-details/prices/', views.prices, name='prices'),
     path('order-details/upload', views.orderupload, name='orderupload'),

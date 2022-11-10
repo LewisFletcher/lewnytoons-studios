@@ -10,7 +10,7 @@
         <p class="pb-4 font-lg">
             Thank you for choosing LewnyToons Studios for your music needs! Please fill out the details below before 
             proceeding to your order. This will help us get in touch with you regarding your purchase. The email address you provide 
-            will be used to send the final mix back to you.
+            will be used to send the final mix back to you. If you have placed an order before, please click <a class="underline font-bold" href="{% url 'already_cust' %}">here</a>.
         </p>
     </div>
     <span class="flex-auto flex-col">
@@ -21,7 +21,11 @@
                 <button class="lewny_button my-4" type="submit">Continue to Order</button>
                 </span>
             </form>
+            <span class="flex justify-end">  
+            <a href="{% url 'already_cust' %}"><button class="lewny_button my-4">I'm Already a Customer</button></a>
+            </span>
     </span>
+    
 </div>
 
 {% endblock %}
