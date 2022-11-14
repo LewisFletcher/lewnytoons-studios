@@ -1,5 +1,18 @@
 {% extends 'index.html' %}
 
 {% block content %}
-
+<div class="content-start flex-box-content flex-auto mt-10 pl-4 mx-auto">
+    <div class="contentborder">
+        <span class="flex justify-between">
+        <h2 class="text-2xl font-bold mb-4" id="background">Frequently Asked Questions</h2>
+        <button class="lewny_button mb-2 pr-4"><a href="{% url 'custdetails' %}">Begin Your Order</a></button>
+        </span>
+        <p class="pb-4 font-lg">
+            Thank you for considering LewnyToons Studios for your music needs! Below you will find frequently asked 
+            questions about our services and their answers. Click 'Begin Order' to purchase your service today! 
+            Check out examples of pre and post-mix songs <a href="/musicstudios/before-after"><strong>here</strong></a>.
+        </p>
+    </div>
+{% include 'musicstudios/faq_questions.html' %}
+</div>
 {% endblock %}

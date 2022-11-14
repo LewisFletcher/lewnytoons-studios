@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django import forms
-from . models import Customer, Product, Price, Order
+from . models import Customer, Product, Price, Order, FrequentlyAsked
 
 # Register your models here.
 
@@ -11,3 +11,4 @@ admin.site.register(Customer, OrderAdmin)
 admin.site.register(Product, OrderAdmin)
 admin.site.register(Price, OrderAdmin)
 admin.site.register(Order, OrderAdmin)
+admin.site.register(FrequentlyAsked, OrderAdmin)

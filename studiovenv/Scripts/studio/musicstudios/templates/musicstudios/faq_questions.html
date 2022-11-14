@@ -1,0 +1,29 @@
+{% for question in questions %}
+<div class="rounded-md px-2 py-2 max-w-fit mt-2" id="questionbg{{ question.id }}" onclick="question_toggle{{ question.id }}(hidden)">
+    <button id="faqbutton"
+    class="rounded-full bg-slate-600 bg-opacity-25 text-slate-200 px-2 pb-2 pt-1 row-span-1" 
+        <span class="font-bold align-middle"><ion-icon name="add-outline" id="questionicon{{ question.id }}" class="text-xl align-[-5px] pointer-events-none items-end"></ion-icon><span class="pr-2">{{ question }}</span></span>                  
+    </button>
+        <ul class="hidden pt-1" id="answer{{ question.id }}">
+            {{ question.answer }}
+        </ul>
+</div>
+<script type="text/javascript">
+    function question_toggle{{ question.id }}(hidden) {
+        var elem = document.getElementById("questionbg{{ question.id }}")
+        var elem2 = document.getElementById("answer{{ question.id }}")
+        var elem3 = document.getElementById("questionicon{{ question.id }}")
+        if (elem2.classList.contains("hidden")) {
+            elem.classList.add('bg-slate-600');
+            elem.classList.add('bg-opacity-25');
+            elem2.classList.remove('hidden');
+            elem3.setAttribute('name', 'close');
+        } else {
+            elem.classList.remove('bg-slate-600');
+            elem.classList.remove('bg-opacity-25');
+            elem2.classList.add('hidden');
+            elem3.setAttribute('name', 'add-outline');
+        }
+    }
+</script>
+{% endfor %}

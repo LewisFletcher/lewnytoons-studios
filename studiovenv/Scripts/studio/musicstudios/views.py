@@ -5,10 +5,10 @@ import stripe
 from django.conf import settings
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
-from .models import Price, Product, Order, Customer
+from .models import Price, Product, Order, Customer, FrequentlyAsked
 from . import forms
 from .forms import OrderForm
-from django.views.generic import TemplateView, CreateView, DetailView, UpdateView
+from django.views.generic import TemplateView, CreateView, DetailView, UpdateView, ListView
 from .forms import CustomerUpdateForm, OrderUpdateForm
 from django.utils.html import mark_safe
 from django.db.models import Q
@@ -134,9 +134,11 @@ class StudiosOverview(View):
         context.update(sidebar_context)
         return render(request, 'musicstudios/overview.html', context)
 
-class FrequentQuestion(TemplateView):
+class FrequentQuestion(ListView):
+    model = FrequentlyAsked
     template_name = "musicstudios/faq.html"
     extra_context = sidebar_context
+    context_object_name = 'questions'
 
 class BeforeAfter(TemplateView):
     template_name = "musicstudios/before_after.html"

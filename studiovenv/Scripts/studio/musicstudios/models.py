@@ -61,3 +61,16 @@ class Order(models.Model):
     customer_paid = models.FloatField(default= 0)
     stripe_order_id = models.CharField(max_length=100, null=True)
     fullfilment_date = models.DateTimeField(null=True)
+
+    def __str__(self):
+        return '%s %s %s' % (self.customer, "-", self.order_date)
+
+class FrequentlyAsked(models.Model):
+    question = models.CharField(max_length=500)
+    answer = models.CharField(max_length=1000)
+
+    class Meta:
+        verbose_name= 'Frequently Asked Question'
+
+    def __str__(self):
+        return self.question
