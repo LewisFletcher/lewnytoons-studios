@@ -5,7 +5,7 @@ import stripe
 from django.conf import settings
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
-from .models import Price, Product, Order, Customer, FrequentlyAsked
+from .models import Price, Product, Order, Customer, FrequentlyAsked, SampleSong
 from . import forms
 from .forms import OrderForm
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView, ListView
@@ -28,13 +28,14 @@ sidebar_context = {
     'sb2url' : '/musicstudios#services',
     'sb3url' : '/musicstudios/frequently-asked-questions',
     'sb4url' : '/musicstudios/before-after',
-    'sb5url' : '#',
+    'sb5url' : '/musicstudios#contact',
     'sb6url' : '#',
 }
  
 def orderdetails(request):
     form = OrderForm()
     context = {'form' : form}
+    context.update(sidebar_context)
     template_name = 'musicstudios/order_details.html'
     return render(request, template_name, context)
 
@@ -74,9 +75,17 @@ def orderupload(request):
 def orderdelete(request):
     if request.session.get('customer_id') != None:
         instance = request.session.get('customer_id')
-        customer = Customer.objects.filter(id=instance)
-        customer.delete()
-        return redirect('musicstudios')
+        customer = Customer.objects.get(id=instance)
+        try:
+            order = Order.objects.filter(customer_id=instance)[0]
+            if order.status == True:
+                return redirect('musicstudios')
+            else:
+                customer.delete()
+                return redirect('musicstudios')
+        except:
+            customer.delete()
+            return redirect('musicstudios')
     else:
         return redirect('musicstudios')
 @csrf_exempt
@@ -140,14 +149,17 @@ class FrequentQuestion(ListView):
     extra_context = sidebar_context
     context_object_name = 'questions'
 
-class BeforeAfter(TemplateView):
+class BeforeAfter(ListView):
+    model = SampleSong
     template_name = "musicstudios/before_after.html"
     extra_context = sidebar_context
+    context_object_name = 'samples'
 
 
 class CustomerDetails(CreateView):
     form_class = forms.CustomerForm
     template_name = 'musicstudios/customer_details.html'
+    extra_context = sidebar_context
     
 
 class OrderReview(DetailView):
@@ -282,7 +294,7 @@ class SuccessView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(SuccessView, self).get_context_data(**kwargs)
         order_id = self.request.session.get('order_id')
-        order = Order.objects.get(pk=order_id)
+        order = Order.objects.filter(pk=order_id)[0]
         product_id = order.product.id
         product = Product.objects.get(pk=product_id)
         customer = Customer.objects.get(pk=order.customer.id)

@@ -74,3 +74,16 @@ class FrequentlyAsked(models.Model):
 
     def __str__(self):
         return self.question
+
+class SampleSong(models.Model):
+    before_mix = models.FileField(upload_to='studio_samples/')
+    after_mix = models.FileField(upload_to='studio_samples/')
+    song_name = models.CharField(max_length=100)
+    song_artist = models.CharField(max_length=100)
+    description = models.CharField(max_length=500)
+
+    class Meta:
+        ordering = ['song_artist']
+
+    def __str__(self):
+        return self.song_name

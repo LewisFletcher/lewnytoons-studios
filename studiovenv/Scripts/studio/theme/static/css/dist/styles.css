@@ -929,6 +929,10 @@ select {
   display: flex;
 }
 
+.table-column-group {
+  display: table-column-group;
+}
+
 .grid {
   display: grid;
 }
@@ -1191,6 +1195,16 @@ select {
 .bg-violet-900 {
   --tw-bg-opacity: 1;
   background-color: rgb(76 29 149 / var(--tw-bg-opacity));
+}
+
+.bg-red-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 226 226 / var(--tw-bg-opacity));
+}
+
+.bg-red-900 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(127 29 29 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-25 {
