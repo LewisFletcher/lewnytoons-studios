@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 from decouple import config
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
@@ -27,9 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 EMAIL_HOST = config('EMAIL_HOST', default='localhost')
 EMAIL_PORT = config('EMAIL_PORT', default=25, cast=int)
-STRIPE_WEBHOOK_SECRET = 'whsec_68357646872a151e70e5136e483732c6de82e6b422dfd1e79eb098d04c699cce'
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET')
 
 ALLOWED_HOSTS = []
 
@@ -107,6 +105,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'studio.wsgi.application'
 
+CSRF_COOKIE_SECURE = True
+
+SESSION_COOKIE_SECURE = True
+
+SECURE_SSL_REDIRECT = True
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -218,5 +221,5 @@ JAZZMIN_UI_TWEAKS = {
 }
 
 
-STRIPE_PUBLISHABLE_KEY = 'pk_test_51LrnwdEQnTnIGRAJI2ywkeVs4oomIwRQGVTBrJZnxMsg7tDQbZu2VLcJtswyBAxAfUaz3P99EX7bDgjmyfXv8n1N006VXCucxc'
+STRIPE_PUBLISHABLE_KEY = 'pk_live_51LrnwdEQnTnIGRAJbK5i6lEzLo8Y6AJIXKcBBJAZWrpFrXbYTp7qBaEYVEMGvVYmNll2UfMEthBdRPLaoG8Jn1RD00MPX8vgap'
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
