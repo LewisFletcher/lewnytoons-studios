@@ -784,6 +784,14 @@ select {
   grid-column: span 2 / span 2;
 }
 
+.col-span-8 {
+  grid-column: span 8 / span 8;
+}
+
+.col-span-3 {
+  grid-column: span 3 / span 3;
+}
+
 .row-span-1 {
   grid-row: span 1 / span 1;
 }
@@ -909,12 +917,12 @@ select {
   margin-bottom: 1rem;
 }
 
-.mb-40 {
-  margin-bottom: 10rem;
-}
-
 .mb-2 {
   margin-bottom: 0.5rem;
+}
+
+.mb-40 {
+  margin-bottom: 10rem;
 }
 
 .block {
@@ -927,10 +935,6 @@ select {
 
 .flex {
   display: flex;
-}
-
-.table-column-group {
-  display: table-column-group;
 }
 
 .grid {
@@ -1047,6 +1051,10 @@ select {
   grid-template-rows: repeat(3, minmax(0, 1fr));
 }
 
+.grid-rows-2 {
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
 .flex-row {
   flex-direction: row;
 }
@@ -1093,6 +1101,10 @@ select {
 
 .gap-10 {
   gap: 2.5rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
 }
 
 .space-y-6 > :not([hidden]) ~ :not([hidden]) {
@@ -1195,16 +1207,6 @@ select {
 .bg-violet-900 {
   --tw-bg-opacity: 1;
   background-color: rgb(76 29 149 / var(--tw-bg-opacity));
-}
-
-.bg-red-100 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(254 226 226 / var(--tw-bg-opacity));
-}
-
-.bg-red-900 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(127 29 29 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-25 {
@@ -1604,6 +1606,10 @@ select {
 }
 
 @media (min-width: 640px) {
+  .sm\:col-span-4 {
+    grid-column: span 4 / span 4;
+  }
+
   .sm\:mx-2 {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
@@ -1639,8 +1645,16 @@ select {
     grid-column: span 10 / span 10;
   }
 
+  .md\:col-span-6 {
+    grid-column: span 6 / span 6;
+  }
+
   .md\:row-span-2 {
     grid-row: span 2 / span 2;
+  }
+
+  .md\:row-span-1 {
+    grid-row: span 1 / span 1;
   }
 
   .md\:my-0 {
@@ -1722,6 +1736,14 @@ select {
     justify-content: space-between;
   }
 
+  .md\:gap-2 {
+    gap: 0.5rem;
+  }
+
+  .md\:gap-0 {
+    gap: 0px;
+  }
+
   .md\:space-x-10 > :not([hidden]) ~ :not([hidden]) {
     --tw-space-x-reverse: 0;
     margin-right: calc(2.5rem * var(--tw-space-x-reverse));
@@ -1767,6 +1789,10 @@ select {
 }
 
 @media (min-width: 1024px) {
+  .lg\:col-span-2 {
+    grid-column: span 2 / span 2;
+  }
+
   .lg\:mx-4 {
     margin-left: 1rem;
     margin-right: 1rem;
@@ -1821,6 +1847,10 @@ select {
 }
 
 @media (min-width: 1280px) {
+  .xl\:col-span-1 {
+    grid-column: span 1 / span 1;
+  }
+
   .xl\:w-3\/4 {
     width: 75%;
   }

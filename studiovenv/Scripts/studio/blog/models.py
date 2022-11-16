@@ -45,8 +45,13 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
     def recent_posts(self):
         return self.created_at >= timezone.now() - datetime.timedelta(days=30)
+
+    def most_recent(self):
+        latest = Post.objects.all()[0]
+        return latest.id
 
     class Meta:
         ordering = ['-created_at']

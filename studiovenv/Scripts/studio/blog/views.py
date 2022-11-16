@@ -21,10 +21,9 @@ sidebar_context = {
             'sidebar5' : 'LewnyToons Studios Home',
             'sidebar6' : 'Contact',
             'sb1url' : '/blog',
-            'sb2url' : '#',
             'sb4url' : '/portfolio',
             'sb5url' : '/',
-            'sb6url' : '#',
+            'sb6url' : '/portfolio#lewiscontact',
 }
 
 #Views
@@ -41,22 +40,14 @@ class BlogView(ListView):
         template = 'blog/all_posts.html'
         max_value = Post.total_posts(self)
         ran_num = str(random.randint(1, max_value))
-        if strval :
-            query = Q(title__icontains=strval)
-            query.add(Q(blog_textbox1__icontains=strval), Q.OR)
-            query.add(Q(blog_textbox2__icontains=strval), Q.OR)    
-            query.add(Q(blog_textbox3__icontains=strval), Q.OR)
-            query.add(Q(summary__icontains=strval), Q.OR)
-            post_list = Post.objects.filter(query).distinct().select_related()
-        else :
-            post_list = Post.objects.all()
-
+        recent = Post.most_recent(self)
         context = {
             'post_list' : post_list,
             'page_headline' : 'All Posts',
             'search' : strval,
             'category_list' : category_list,
             'page_obj' : page_obj,
+            'sb2url' : (recent),
             'sb3url' : (ran_num),
         }
         context.update(sidebar_context)
@@ -66,18 +57,34 @@ class BlogDetailView(DetailView):
     model = Post
     template_name = 'blog/detail.html'
     extra_context = sidebar_context
+    max_value = Post.total_posts(Post)
+    ran_num = str(random.randint(1, max_value))
+    recent = str(Post.most_recent(Post))
+    recent_url = ('/blog/' + recent)
+    ran_num_url = ('/blog/' + ran_num)
+    context = {
+            'sb2url' : (recent_url),
+            'sb3url' : (ran_num_url),
+    }
+    extra_context.update(context)
 
 class CategoryView(DetailView, MultipleObjectMixin):
     paginate_by = 2
     model = Category
     template_name = 'blog/category_view.html'
     extra_context = sidebar_context
-
+    max_value = Post.total_posts(Post)
+    ran_num = str(random.randint(1, max_value))
+    recent = str(Post.most_recent(Post))
+    recent_url = ('/blog/' + recent)
+    ran_num_url = ('/blog/' + ran_num)
+    context = {
+            'sb2url' : (recent_url),
+            'sb3url' : (ran_num_url),
+    }
+    extra_context.update(context)
     def get_context_data(self, **kwargs):
         category_list = Category.objects.all()
         object_list = Post.objects.filter(category = self.get_object())       
         context = super(CategoryView, self).get_context_data(object_list=object_list,**kwargs, category_list=category_list)   
         return context
-    
-    #def get_queryset(self):
-        #return Post.objects.filter(category_id=self.kwargs['pk']).order_by('-created_at')

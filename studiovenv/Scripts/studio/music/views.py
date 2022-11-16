@@ -24,7 +24,7 @@ sidebar_context = {
     'sb3url' : '/music#singles',
     
     'sb5url' : '/musicstudios',
-    'sb6url' : '#',
+    'sb6url' : '/musicstudios#contact',
 }
 
 #Views
