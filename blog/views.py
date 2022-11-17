@@ -38,7 +38,7 @@ class BlogView(ListView):
         category_list = Category.objects.all()
         template = 'blog/all_posts.html'
         try:
-            max_value = Post.total_posts(self)
+            max_value = 5
             ran_num = str(random.randint(1, max_value))
             recent = Post.most_recent(self)
         except:
