@@ -29,7 +29,9 @@ EMAIL_HOST = config('EMAIL_HOST', default='localhost')
 EMAIL_PORT = config('EMAIL_PORT', default=25, cast=int)
 STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET')
 
-ALLOWED_HOSTS = ['lewnytoonsstudios.com']
+ALLOWED_HOSTS = ['lewnytoonsstudios.com', 'web-production-aac2.up.railway.app']
+
+CSRF_TRUSTED_ORIGINS = ['https://web-production-aac2.up.railway.app', 'https://www.lewnytoonsstudios.com']
 
 INTERNAL_IPS = [
     "127.0.0.1",
