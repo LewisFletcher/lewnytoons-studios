@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+{% block headline %}{% endblock %}
+{% block content %}
+<div class="mx-4 md:mx-0 lg:mx-4">
+    <div class="flex flex-col justify-center mx-auto mt-10 pb-4 md:px-6">
+        <h1 class="flex-1 w-auto text-2xl my-2 text-gray-200 font-semibold">{{post.title}}</h1>
+        <h2 class="flex-1 w-auto text-xl text-slate-300 font-semibold my-2">{{post.summary}}</h1>
+        <p class="flex-1 w-auto text-slate-400 font-semilight md:ml-2">By: {{ post.owner }}</p>
+        <p class="flex-1 w-auto text-slate-400 font-light md:my-1 md:ml-2">Published on: {{ post.created_at }}</p>
+    </div>
+    <div class="flex flex-col items-center mt-2 md:mt-3">
+        <span><img src="{{ post.blog_photo1.url }}" class="max-h-96 w-auto grow"alt=""></span>
+        <p class="mt-2 grow text-sm text-gray-500">Image: {{ post.blog_photo1_ex }}</p>
+    </div>
+    <div class="flex flex-col items-center mt-3 md:mt-6">
+        <p class="mb-6">{{ post.blog_textbox1 }}</p>
+        <p>{{ post.blog_textbox2 }}</p>
+    </div>
+    <div class="flex flex-col items-center mt-6">
+        <span><img src="{{ post.blog_photo2.url }}" class="max-h-96 w-auto grow"alt=""></span>
+        <p class="mt-2 grow text-sm text-gray-500">Image: {{ post.blog_photo2_ex }}</p>
+    </div>
+    <div class="flex flex-col items-center mt-3 md:mt-6">
+        <p class="mb-6">{{ post.blog_textbox3 }}</p>
+    </div> 
+    <div class="flex flex-col mt-3 md:mt-6">
+        <p class="mb-6 text-sm text-slate-400 font-light">Last updated: {{ post.updated_at }}</p>
+    </div>    
+</div>
+
+{% endblock %}

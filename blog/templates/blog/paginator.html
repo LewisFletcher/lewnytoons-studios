@@ -1,0 +1,15 @@
+<div class="mt-5 pagination flex flex-auto justify-center">
+    <span class="flex justify-center step-links">
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="ml-2 font-bold bold_underline">&laquo; First</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="ml-2 font-bold bold_underline">Previous</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="ml-2 font-bold bold_underline">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="ml-2 pl-2 font-bold bold_underline">Last &raquo;</a>
+        {% endif %}
+    </span>
+</div>

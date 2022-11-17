@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block headline %}{% endblock %}
+{% block content %}
+<div class="flex flex-col items-center mx-auto mt-10 pb-4 md:px-6">
+    {% if album.picture %}
+            <img src="{{ album.picture.url }}" class="min-h-64 min-w-64 md:h-96 md:w-96"alt="">
+        {% else %}
+            <img src="{% static 'something_wrong.jpg' %}" class="h-64 md:h-64 w-full object-cover"alt="">
+        {% endif %}
+    <h1 class="flex-1 w-auto text-3xl my-2 text-gray-200 font-bold">{{album.title}}</h1>
+    <h2 class="flex-1 w-auto text-xl text-slate-300 font-semibold my-2">{{album.description}}</h1>
+    <p class="flex-1 w-auto text-slate-400 font-light md:my-1 md:ml-2">Released on: {{ album.release_date }}</p>
+</div>
+<div class="flex flex-col mx-auto mt-10 pb-4 md:px-6 w-3/4 flex-wrap">
+    <h2 class="contentborder text-2xl font-bold mb-4 pl-6">Track List</h2>
+    <ul class="grid grid-cols-2">
+    {% for song in album_songs %}
+        {% if song.alb.id == album.id %}
+            <li class="py-2"><a href="{% url 'the_music:play' song.id %}" target="_blank" rel="noreferrer"><span class="font-semibold text-xl">{{ song.title }}</span></a>{% if song.featured_artists %} <span class="text-lg font-semibold">(feat. {{ song.featured_artists }})</span>{% else %}{% endif %}</li>
+                <span class="text-right py-4 md:py-2">Listening time: {{ song.length }}
+                <a class="pl-4" href="https://open.spotify.com/artist/7MBayOmrWDT5Cbt3hFp4xK" rel="nofollow noopener noreferrer"><i class="fab fa-spotify"></i></a>
+                <a class="pl-1" href="https://music.apple.com/us/artist/lewnytoons/1477243887" rel="nofollow noopener noreferrer"><i class="fab fa-apple"></i></a>
+                <a class="pl-1" href="https://www.youtube.com/channel/UCWl3OR-F8xhGQkV9yb7G1rg" rel="nofollow noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                <a class="pl-1" href="https://soundcloud.com/lewnytoons" rel="nofollow noopener noreferrer"><i class="fab fa-soundcloud"></i></a>
+                </span>
+        {% else %}
+        <p>Album cannot be located. Please try again!</p>
+        {% endif %}
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

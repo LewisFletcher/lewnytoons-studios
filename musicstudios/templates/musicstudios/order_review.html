@@ -1,0 +1,71 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<!--- Add a 'modify' button to the details section that takes you back to said page and resaves the form -->
+<div class="content-start flex-auto mt-10 pl-4 mx-auto">
+    <div class="contentborder">
+        <span class="flex justify-between">  
+        <h2 class="text-2xl font-bold mb-4" id="background">Review Your Order</h2>
+        <a class="pr-4" href="{% url 'orderdelete' %}"><button class="lewny_button my-2">Cancel Order</button></a>
+        </span>
+        <p class="pb-4 font-lg">
+            Thank you for choosing LewnyToons Studios for your music needs! Please review your order and ensure it is accurate. The finished project will be sent to the email provided. 
+            Projects containing more stems than the chosen price point will be refunded and the order will be cancelled. Your payment will be required on the next page.
+        </p>
+    </div>
+    <div class="contentborder">
+        <span class="mb-2">
+            <span class="flex flex-col bg-slate-800 bg-opacity-25 border-slate-600 rounded-lg pl-4 pr-2 py-2 mb-4 mt-2">
+                <span class="flex flex-row justify-between">
+                    <h3 class="text-xl font-bold mb-1">Customer Details</h3>
+                    <a href="{% url 'custupdate' customer.id%}" class="lewny_button pl-8">Make Changes</a>
+                </span>
+                <p class="py-1"><strong>Name:</strong> {{ customer.first_name }} {{ customer.last_name }}</p>
+                {% if customer.phone %}
+                <p class="py-1"><strong>Phone Number:</strong> {{ customer.phone }}
+                {% else %}
+                <p class="py-1"><strong>Phone Number:</strong> Not provided.</p>
+                {% endif %}
+                <p class="py-1"><strong>Email Address:</strong> {{ customer.email }}</p>
+            </span>
+        </span>
+    </div>
+    <div class="contentborder">
+        <span class="mb-2">
+            <span class="flex flex-col bg-slate-800 bg-opacity-25 border-slate-600 rounded-lg pl-4 pr-2 py-2 mt-2 mb-4">
+                <span class="flex flex-row justify-between">
+                    <h3 class="text-xl font-bold mb-1">Order Details</h3>
+                    <a href="{% url 'orderupdate' order.id %}" class="lewny_button pl-8">Make Changes</a>
+                </span>
+                <p class="py-1"><strong>Price at checkout:</strong> ${{ order.price.get_display_price }} (Sales tax not included)</p>
+                <p class="py-1"><strong>Price includes:</strong> {{ order.price.price_description }}</p>
+                {% if order.cust_requests %}
+                <p class="py-1"><strong>Requests:</strong> {{ order.cust_requests }}</p>
+                {% else %}
+                <p class="py-1"><strong>Requests:</strong> No specific requests made.</p>
+                {% endif %}
+                {% if order.reference_track %}
+                <p class="py-1"><strong>Reference track link:</strong> {{ order.reference_track }}
+                {% else %}
+                <p class="py-1"><strong>Reference track link:</strong> No reference track linked.</p>
+                {% endif %}
+                {% if order.music_file %}
+                <p class="py-1"><strong>Music file:</strong> {{ order.music_file }}
+                {% else %}
+                <p class="py-1"><strong>Music file:</strong> No music file uploaded.</p>
+                {% endif %}
+                <p class="py-1"><strong>Order Date:</strong> {{ order.order_date }}
+            </span>
+        </span>
+    
+    </div>
+    <form action="{% url 'create-checkout-session' order.id %}" method="POST">
+        {% csrf_token %}
+        <span class="flex justify-end pr-4">  
+            <button class="lewny_button my-2" type="submit" id="checkout-button">Continue to Payment</button>
+        </span>
+    </form>        
+</div>
+
+
+{% endblock %}

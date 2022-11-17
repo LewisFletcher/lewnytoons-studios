@@ -1,0 +1,146 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="dark:">
+	<head>
+	<title>{% block title %}LewnyToons Studios{% endblock %}</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta name="description" content="LewnyToons studios is a website containing all assests of Lewis Fletcher, or LewnyToons.">
+    	<meta name="author" content="Lewis Fletcher">
+		<meta property="og:type" content="website">
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="LewnyToons Studios">
+		<meta property="og:url" content="#">
+		<meta property="og:description" content="LewnyToons studios is a website containing the assests of Lewis Fletcher.">
+		<meta property="og:image" content="https://i1.sndcdn.com/avatars-BrNmfJcKXyEswCEN-DwyB0g-t200x200.jpg">
+		<meta name="twitter:site" content="@LewnyT">
+		<meta name="twitter:title" content="Twitter">
+		<meta name="twitter:description" content="LewnyToons studios is a website containing the assests of Lewis Fletcher.">
+		<meta name="twitter:url" content="https://twitter.com/LewnyT">
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:image" content="https://pbs.twimg.com/profile_images/1260752410567299072/FB8EbrsA_400x400.jpg">
+		<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+		<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+		<script src="https://unpkg.com/htmx.org@1.8.2"></script>
+		<script src="https://js.stripe.com/v3/"></script>
+		<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+		{% block head %} {% endblock %}
+		{% tailwind_css %}
+</head>
+	<body class="antialiased text-slate-400 bg-slate-900 h-screen">  	  	
+		{% block navbar %}
+		{% endblock %}
+	<span class="" id="hiddennav">
+	  	{% block sidebar %}
+		<div class="hidden lg:block fixed inset-0 top-[3.8125rem] left-auto right-auto w-[19.5rem] pb-10 px-8 overflow-y-auto">
+		  <nav id="nav" class="lg:text-sm lg:leading-6 relative">
+			<div class="sticky top-0 -ml-0.5">
+				<ul>
+					<li class="mt-12 lg:mt-8">
+						<h5 class="mb-8 lg:mb-3 font-semibold">{{ sidebarhead }}</h5>
+					</li>
+					<ul class="space-y-6 lg:space-y-2 border-l border-slate-800">
+						<li>
+							<a class="group items-center lg:text-sm lg:leading-6 ml-2 font-normal" href="{{ sb1url | safe }}">
+							{{ sidebar1 }}
+							</a>
+						</li>
+						<li>
+							<a class="group items-center lg:text-sm lg:leading-6 ml-2 font-normal" href="{{ sb2url | safe }}">
+							{{ sidebar2 }}
+							</a>
+						</li>
+						<li>
+							<a class="group items-center lg:text-sm lg:leading-6 ml-2 font-normal" href="{{ sb3url | safe }}">
+							{{ sidebar3 }}
+							</a>
+						</li>
+						<li>
+							<a class="group items-center lg:text-sm lg:leading-6 ml-2 font-normal" href="{{ sb4url | safe }}">
+							{{ sidebar4 }}
+							</a>
+						</li>
+						<li>
+							<a class="group items-center lg:text-sm lg:leading-6 ml-2 font-normal" href="{{ sb5url | safe }}">
+							{{ sidebar5 }}
+							</a>
+						</li>
+						<li>
+							<a class="group items-center lg:text-sm lg:leading-6 ml-2 font-normal" href="{{ sb6url | safe }}">
+							{{ sidebar6 }}
+							</a>
+						</li>
+					</ul>
+				</ul>
+			</div>
+		  </nav>
+		</div>
+	  </div>
+		{% endblock %}
+		{% block homepage %}
+		{% endblock %}
+		<div class="w-full sm:w-9/12 lg:w-8/12 px-4 sm:pr-2 lg:pr-4 mx-auto md:mt-auto">
+		{% block headline %}
+		<div class="font-bold text-2xl text-center text-white mx-auto pt-2"><h1>{% block manual_headline %}{{page_headline}}{% endblock %}</h1></div>
+		{% endblock %}
+		
+		{% block content %}
+		{% endblock %}
+	  </div>
+	  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+	  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+	  <script>
+		function toggle(hidden) {
+			var elem = document.getElementById("mobilenav")
+			var elem2 = document.getElementById("hiddennav")
+			var elem3 = document.getElementById("menubutton")
+			if (elem.classList.contains("hidden")) {
+				elem.classList.remove('hidden');
+				elem2.classList.add('hidden');
+				elem3.setAttribute('name', 'close');
+			} else {
+				elem.classList.add('hidden');
+				elem2.classList.remove('hidden')
+				elem3.setAttribute('name', 'menu');
+			}
+		}
+		</script>
+		<script>
+			function toggle2(hidden) {
+				var elem = document.getElementById("menubg")
+				var elem2 = document.getElementById("categoryselect")
+				var elem3 = document.getElementById("categoryicon")
+				var elem4 = document.getElementById("cathtml")
+				if (elem2.classList.contains("hidden")) {
+					elem.classList.add('bg-slate-600');
+					elem.classList.add('bg-opacity-25');
+					elem2.classList.remove('hidden');
+					elem3.setAttribute('name', 'close');
+					elem4.innerHTML = ("");
+					elem4.classList.remove('pr-2');
+				} else {
+					elem.classList.remove('bg-slate-600');
+					elem.classList.remove('bg-opacity-25');
+					elem2.classList.add('hidden');
+					elem3.setAttribute('name', 'add-outline');
+					elem4.innerHTML = ("Category Select");
+					elem4.classList.add('pr-2');
+				}
+			}
+		</script>
+	  <footer>
+		<hr class="mt-8 border-slate-800">
+		<div class="flex flex-wrap items-center md:justify-between justify-center bg-slate-800 bg-opacity-25">
+			<div class="w-full md:w-4/12 px-4 mx-auto text-center">
+			  <div class="text-sm text-slate-500 font-semibold py-10">
+				© LewnyToons Studios
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </footer>
+	</span>  
+	</body>
+</html>

@@ -1,0 +1,42 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="content-start flex-box-content flex-auto mt-10 pl-4 mx-auto">
+    <div class="contentborder">
+        <span class="flex justify-between">
+        <h2 class="text-2xl font-bold mb-4" id="background">Services Offered</h2>
+        <button class="lewny_button mb-2 pr-4"><a href="{% url 'custdetails' %}">Begin Your Order</a></button>
+        </span>
+        <p class="pb-4 font-lg">
+            LewnyToons Studios offers a variety of services to assist you with making your music sound the best.
+            We can assist with both the mixing and mastering of your vocals, beats, or completed songs. Understanding your sound is important, 
+            and any specific requests can be fulfilled in regards to the mixing and sound engineering process. LewnyToons has 4 years of experience with sound design and 
+            engineering, and can quickly take your audio from rough around the edges to a radio-ready sound. For more details and pricing, check out the packages offered below. 
+            Check out the <a href="/musicstudios/frequently-asked-questions"><strong>Frequently Asked Questions</strong></a> 
+            for additional information not found below, or see examples of pre and post-mix songs <a href="/musicstudios/before-after"><strong>here</strong></a>.
+        </p>
+    </div>
+{% if products %}
+    {% for product in products %}
+    <div class="contentborder"> 
+        <h3 class="text-2xl font-bold mb-2" id="mnmpack">{{ product.name }}</h3>
+        <h4 class="font-semibold mb-2">{{ product.product_description }}</h4>
+        <h5 class="font-bold text-xl mb-2">Price Options: </h5>
+        <ul class="list-disc pl-4">
+        {% for price in product.prices.all %}
+            <li>
+                <p><strong>${{ price.get_display_price }}</strong> - {{ price.price_description }}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+{% else %}
+<p>No products to display.</p>
+{% endif %}
+    <div class="contentborder" id="contact">
+        <h3 class="text-2xl font-bold mb-2" id="mnmpack">Contact LewnyToons</h3>
+        <h4 class="font-semibold mb-2">Email: lewnytoonsmusic@gmail.com</h4> 
+    </div>
+</div>
+{% endblock %}

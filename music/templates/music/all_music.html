@@ -1,0 +1,68 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<div>    
+    <div class="flex flex-container bg-violet-900 bg-opacity-25 shadow-2xl rounded-md border-slate-800 border-2 px-2 py-2 flex-auto mx-auto mt-10 w-3/4">
+        <div class="grid grid-cols-12 gap-4">
+            <div class="flex flex-col col-span-2">
+                <a href="#"><img src="{% static 'lewny.jpg' %}"  class="max-h-32 my-auto max-w-full rounded-full brightness-75 hover:grayscale border-4 border-slate-800 h-auto w--auto" alt="Lewis Fletcher"></a>
+                <div class="mx-auto text-center">
+                    <a class="mx-auto" href="https://open.spotify.com/artist/7MBayOmrWDT5Cbt3hFp4xK" rel="nofollow noopener noreferrer"><i class="fab fa-spotify"></i></a>
+                    <a class="mx-auto" href="lewnytoonsmusic@gmail.com" rel="nofollow noopener noreferrer"><i class="far fa-fw fa-envelope"></i></a>
+                    <a class="mx-auto" href="https://twitter.com/LewnyT" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square"></i></a>
+                    <a class="mx-auto" href="https://instagram.com/lewnytoonsmusic" rel="nofollow noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-span-10">
+                <h1 class="text-xl font-bold" id="about">LewnyToons - About the Artist</h1>
+                <p>Thanks for checking out my music! Music is a passion of mine, with my listening ranging from Mac Miller to Pink Floyd. 
+                    LewnyToons is a fictional character created for the purpose of making music. While the emotional states I go through and rap about are true, not all of my lyrics are accurate to my life. 
+                    I am a happy and free-spirited person, but I have battled anxiety throughout my life. Emotion fuels my music and drives my passion for it.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% if album_list %}
+<h1 class="text-xl font-extrabold mx-auto mt-5 w-3/4 pl-10" id="albums">Albums</h1>
+<div class="content-start mx-auto mt-5">   
+    <div class="grid lg:grid-cols-2 xl:grid-cols-3 gap-10 px-2 py-2 mx-auto w-3/4 xl:w-3/4 mb-4">        
+    {% for album in album_list %}
+        <div class="bg-slate-600 bg-opacity-25 rounded overflow-hidden md:w-64 w-64 mx-2">    
+            {% if album.picture %}
+            <a href="{% url 'the_music:album_detail' album.id %}"><img src="{{ album.picture.url }}" class="h-64 md:h-64 w-full object-cover hover:"alt=""></a>
+            {% else %}
+            <img src="{% static 'something_wrong.jpg' %}" class="h-64 md:h-64 w-full object-cover"alt="">
+            {% endif %}
+            <a href="{% url 'the_music:album_detail' album.id %}"><h2 class="font-bold bold_underline pl-1">{{ album.title }}</h2></a>
+            <h2 class="font-medium text-sm pl-1">Release Date: {{ album.release_date }}</h2>
+            <h3 class="font-medium text-sm pl-1">{{ album.song_set.count }} Tracks </h3>
+        </div> 
+    {% endfor %}      
+    </div>
+</div>
+{% else %}
+    <p>No music is available at this time.</p>
+{% endif %}
+
+{% if single_list %}
+<h1 class="text-xl font-extrabold mx-auto mt-5 w-3/4 pl-10" id="singles">Singles</h1>
+<div class="content-start mx-auto mt-5">   
+    <div class="grid lg:grid-cols-2 xl:grid-cols-3 gap-10 px-2 py-2 mx-auto w-3/4 xl:w-3/4 mb-4">        
+    {% for single in single_list %}
+        <div class="bg-slate-600 rounded overflow-hidden md:w-64 w-64 mx-2 bg-opacity-25">    
+            {% if single.picture %}
+            <a href="{% url 'the_music:play' single.id %}" target="_blank" rel="noreferrer"><img src="{{ single.picture.url }}" class="h-64 md:h-64 w-full object-cover"alt=""></a>
+            {% else %}
+            <img src="{% static 'something_wrong.jpg' %}" class="h-64 md:h-64 w-full object-cover"alt="">
+            {% endif %}
+            <a href="{% url 'the_music:play' single.id %}" target="_blank" rel="noreferrer"><h2 class="font-bold bold_underline pl-1">{{ single.title }}</h2></a>
+            <h2 class="font-medium text-sm pl-1">Release Date: {{ single.release_date }}</h2>
+        </div> 
+    {% endfor %}      
+    </div>
+</div>
+{% else %}
+    <p>No music is available at this time.</p>
+{% endif %}
+
+{% endblock %}

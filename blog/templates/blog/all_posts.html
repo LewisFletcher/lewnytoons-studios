@@ -1,0 +1,18 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="flex flex-1 flex-row justify-between space-x-10 mt-6 mb-1">  
+        {% include "blog/category_select.html" %}
+</div>
+
+{% if page_obj %}
+        {% for post in page_obj %}
+        {% include "blog/post_summary.html" %} 
+        {% endfor %}
+        {% include "blog/paginator.html" %}
+{% else %}
+<div class="min-h-screen flex-box-content flex-auto mx-auto mt-10 pl-4">
+    <p>No blog posts are available at this time.</p>
+</div>
+{% endif %}
+{% endblock %}
