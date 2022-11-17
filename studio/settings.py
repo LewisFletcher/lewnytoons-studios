@@ -247,3 +247,5 @@ except:
     STRIPE_SECRET_KEY = '1923859728935'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+#Remove fake keys in prod
