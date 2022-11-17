@@ -24,7 +24,6 @@ class OrderForm(DynamicFormMixin, forms.ModelForm):
 
     product = forms.ModelChoiceField(
         queryset=Product.objects.all(),
-        initial=Product.objects.first(),
         label= "Select a Product:",
         widget= forms.RadioSelect(
             attrs={
