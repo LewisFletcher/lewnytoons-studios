@@ -75,6 +75,7 @@ NPM_BIN_PATH = 'C:\Program Files\\nodejs\\npm.cmd'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
@@ -160,6 +161,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
+    BASE_DIR / "media"
 ]
 
 # Default primary key field type
@@ -223,3 +225,4 @@ JAZZMIN_UI_TWEAKS = {
 
 STRIPE_PUBLISHABLE_KEY = 'pk_live_51LrnwdEQnTnIGRAJbK5i6lEzLo8Y6AJIXKcBBJAZWrpFrXbYTp7qBaEYVEMGvVYmNll2UfMEthBdRPLaoG8Jn1RD00MPX8vgap'
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
