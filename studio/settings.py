@@ -29,7 +29,7 @@ EMAIL_HOST = config('EMAIL_HOST', default='localhost')
 EMAIL_PORT = config('EMAIL_PORT', default=25, cast=int)
 STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['lewnytoonsstudios.com']
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -111,6 +111,13 @@ CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
 SECURE_SSL_REDIRECT = True
+
+SECURE_HSTS_SECONDS = 3600
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+SECURE_HSTS_PRELOAD = True
+
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
