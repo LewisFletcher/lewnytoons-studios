@@ -34,7 +34,7 @@ class MusicView(ListView):
     def get(self, request):
         album_list = Album.only_albums.all()
         single_list = Song.only_singles.all()
-        max_value = Song.total_songs(self)
+        max_value = 20 #Song.total_songs(self)
         ran_num = str(random.randint(1, max_value))
         context = {
             'album_list' : album_list,
@@ -48,7 +48,7 @@ class AlbumDetailView(DetailView):
     model = Album
     template_name = 'music/album_detail.html'
     extra_context = sidebar_context
-    max_value = Song.total_songs(self=Song)
+    max_value = 20 #Song.total_songs(self=Song)
     ran_num = str(random.randint(1, max_value))
     sb4_url = ('/music/' + ran_num + '/play')
     extra_context.update({'sb4url' : sb4_url})   
@@ -63,7 +63,7 @@ class PlaySongView(DetailView):
     model = Song
     template_name = 'music/play_song.html'
     extra_context = sidebar_context
-    max_value = Song.total_songs(self=Song)
+    max_value = 20 #Song.total_songs(self=Song)
     ran_num = str(random.randint(1, max_value))
     sb4_url = ('/music/' + ran_num + '/play')
     extra_context.update({'sb4url' : sb4_url})   
@@ -75,6 +75,6 @@ class PlaySongView(DetailView):
 
 class AlbumRandomSongView(AlbumDetailView):
     def redirect_to_play(request):
-        max_value = Song.total_songs(self=Song)
+        max_value = 20 #Song.total_songs(self=Song)
         ran_num = str(random.randint(1, max_value))
         return HttpResponseRedirect(reverse('the_music:random_song', kwargs=(ran_num,)))
