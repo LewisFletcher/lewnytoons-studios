@@ -23,11 +23,9 @@ BASE_URL = 'http://127.0.0.1:8000'
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ('SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
-DEBUG = os.environ('DEBUG', default=False, cast=bool)
-EMAIL_HOST = os.environ('EMAIL_HOST', default='localhost')
-EMAIL_PORT = os.environ('EMAIL_PORT', default=25, cast=int)
-STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET')
+SECRET_KEY = os.environ['SECRET_KEY']
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
 
 ALLOWED_HOSTS = ['lewnytoonsstudios.com']
 
@@ -231,5 +229,5 @@ JAZZMIN_UI_TWEAKS = {
 
 
 STRIPE_PUBLISHABLE_KEY = 'pk_live_51LrnwdEQnTnIGRAJbK5i6lEzLo8Y6AJIXKcBBJAZWrpFrXbYTp7qBaEYVEMGvVYmNll2UfMEthBdRPLaoG8Jn1RD00MPX8vgap'
-STRIPE_SECRET_KEY = os.environ('STRIPE_SECRET_KEY')
+STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
