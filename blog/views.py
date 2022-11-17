@@ -36,15 +36,18 @@ class BlogView(ListView):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         category_list = Category.objects.all()
-        strval =  request.GET.get("search", False)
         template = 'blog/all_posts.html'
-        max_value = Post.total_posts(self)
-        ran_num = str(random.randint(1, max_value))
-        recent = Post.most_recent(self)
+        try:
+            max_value = Post.total_posts(self)
+            ran_num = str(random.randint(1, max_value))
+            recent = Post.most_recent(self)
+        except:
+            max_value = '1'
+            ran_num = '1'
+            recent = '#'
         context = {
             'post_list' : post_list,
             'page_headline' : 'All Posts',
-            'search' : strval,
             'category_list' : category_list,
             'page_obj' : page_obj,
             'sb2url' : (recent),
