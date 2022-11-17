@@ -41,7 +41,7 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def total_posts(self):
-        return Post.objects.count()
+        return self.objects.count()
 
     def __str__(self):
         return self.title
@@ -50,7 +50,7 @@ class Post(models.Model):
         return self.created_at >= timezone.now() - datetime.timedelta(days=30)
 
     def most_recent(self):
-        latest = Post.objects.all()[0]
+        latest = self.objects.all()[0]
         return latest.id
 
     class Meta:
