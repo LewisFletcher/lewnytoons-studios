@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
-from decouple import config
-import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'
@@ -24,11 +22,21 @@ BASE_URL = 'http://127.0.0.1:8000'
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
-STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
 
-ALLOWED_HOSTS = ['lewnytoonsstudios.com']
+try:
+    SECRET_KEY = os.environ['SECRET_KEY']
+except:
+    SECRET_KEY = '83592835hjdfbvj798d'
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+
+try:
+    STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
+except:
+    STRIPE_WEBHOOK_SECRET = 'none'
+
+ALLOWED_HOSTS = ['lewnytoonsstudios.com', '127.0.0.1', 'web-production-aac2.up.railway.app']
+
+CSRF_TRUSTED_ORIGINS = ['https://web-production-aac2.up.railway.app']
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -227,10 +235,15 @@ JAZZMIN_UI_TWEAKS = {
         "success": "btn-outline-success"
     }
 }
-
+import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
 STRIPE_PUBLISHABLE_KEY = 'pk_live_51LrnwdEQnTnIGRAJbK5i6lEzLo8Y6AJIXKcBBJAZWrpFrXbYTp7qBaEYVEMGvVYmNll2UfMEthBdRPLaoG8Jn1RD00MPX8vgap'
-STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
+
+try:
+    STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
+except:
+    STRIPE_SECRET_KEY = '1923859728935'
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
