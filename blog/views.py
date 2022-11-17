@@ -60,9 +60,9 @@ class BlogDetailView(DetailView):
     model = Post
     template_name = 'blog/detail.html'
     extra_context = sidebar_context
-    max_value = Post.total_posts(Post)
+    max_value = 5
     ran_num = str(random.randint(1, max_value))
-    recent = str(Post.most_recent(Post))
+    recent = '1'
     recent_url = ('/blog/' + recent)
     ran_num_url = ('/blog/' + ran_num)
     context = {
@@ -76,9 +76,9 @@ class CategoryView(DetailView, MultipleObjectMixin):
     model = Category
     template_name = 'blog/category_view.html'
     extra_context = sidebar_context
-    max_value = Post.total_posts(Post)
+    max_value = 5
     ran_num = str(random.randint(1, max_value))
-    recent = str(Post.most_recent(Post))
+    recent = '1'
     recent_url = ('/blog/' + recent)
     ran_num_url = ('/blog/' + ran_num)
     context = {
