@@ -23,7 +23,7 @@ BASE_URL = 'http://127.0.0.1:8000'
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ('SECRET_KEY')
+SECRET_KEY = os.environ('SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 DEBUG = os.environ('DEBUG', default=False, cast=bool)
 EMAIL_HOST = os.environ('EMAIL_HOST', default='localhost')
 EMAIL_PORT = os.environ('EMAIL_PORT', default=25, cast=int)
