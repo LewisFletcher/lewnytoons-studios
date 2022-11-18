@@ -25,7 +25,7 @@ BASE_URL = 'http://127.0.0.1:8000'
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
-DEBUG = False
+DEBUG = True
 
 STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
 
@@ -57,8 +57,8 @@ INSTALLED_APPS = [
     #App Dependencies    
     'tailwind',
     'theme',
-    'django_browser_reload',
-    'debug_toolbar',
+    #'django_browser_reload',
+    #'debug_toolbar',
     'crispy_forms',
     "crispy_tailwind",
     "widget_tweaks",
@@ -175,10 +175,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    BASE_DIR / "media"
-]
+#STATICFILES_DIRS = [
+    #BASE_DIR / "static",
+    #BASE_DIR / "media"
+#]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
