@@ -264,8 +264,6 @@ class CreateCheckoutSessionView(View):
         order = Order.objects.get(id=order_id)
         stripe.api_key = settings.STRIPE_SECRET_KEY
         domain = "https://lewnytoonsstudios.com"
-        if settings.DEBUG:
-            domain = "http://127.0.0.1:8000"
         checkout_session = stripe.checkout.Session.create(
             payment_intent_data={
                 'metadata' : {'order_id': order_id}
