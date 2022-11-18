@@ -29,6 +29,12 @@ DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
 
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+
+AWS_STORAGE_BUCKET_NAME = 'lewnytoons-studios-media'
+
 ALLOWED_HOSTS = ['lewnytoonsstudios.com', '127.0.0.1', 'web-production-aac2.up.railway.app', 'https://lewnytoonsstudios.com']
 
 CSRF_TRUSTED_ORIGINS = ['https://web-production-aac2.up.railway.app', 'https://lewnytoonsstudios.com']
@@ -56,6 +62,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     "crispy_tailwind",
     "widget_tweaks",
+    "storages",
 
     #My Apps
     'home.apps.HomeConfig',
@@ -239,5 +246,11 @@ STRIPE_PUBLISHABLE_KEY = 'pk_live_51LrnwdEQnTnIGRAJbK5i6lEzLo8Y6AJIXKcBBJAZWrpFr
 STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+AWS_S3_FILE_OVERWRITE = False
+
+AWS_DEFAULT_ACL = None
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 #Fix security settings
