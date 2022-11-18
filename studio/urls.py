@@ -27,7 +27,7 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += [
     path('favicon.ico', serve, {
             'path': 'favicon.ico',
-            'document_root': os.path.join(BASE_DIR, 'static/favicon_io'),
+            'document_root': os.path.join(BASE_DIR, 'staticfiles/favicon_io'),
         }
     ),
 ]
