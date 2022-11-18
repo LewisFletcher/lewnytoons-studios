@@ -55,7 +55,7 @@ class AlbumDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(AlbumDetailView, self).get_context_data(**kwargs)
         album = self.get_object()
-        context['album_songs'] = album.song_set.all()
+        context['album_songs'] = reversed(album.song_set.all())
         return context
     
 
