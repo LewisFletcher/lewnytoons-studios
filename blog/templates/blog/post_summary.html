@@ -2,7 +2,7 @@
     <div class="contentborder">
         <div class="grid grid-cols-12 grid-rows-2 gap-2 md:gap-0"> 
                 <div class="col-span-6 lg:col-span-2 md:row-span-2">
-                    <a href="{% url 'the_blog:detail' post.id %}"> {% if post.blog_photo1.url %} <img src="{{ post.blog_photo1.url }}" class="max-h-48 w-auto px-1"alt="">
+                    <a href="{% url 'the_blog:detail' post.id %}"> {% if post.blog_photo1 %} <img src="{{ post.blog_photo1.url }}" class="max-h-48 w-auto px-1"alt="">
                         {% else %}Click to read.{% endif %}</a>
                 </div>
                 <div class="pl-1 col-span-6 md:col-span-10 row-span-1">
