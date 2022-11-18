@@ -34,9 +34,9 @@ try:
 except:
     STRIPE_WEBHOOK_SECRET = 'none'
 
-ALLOWED_HOSTS = ['lewnytoonsstudios.com', '127.0.0.1', 'web-production-aac2.up.railway.app']
+ALLOWED_HOSTS = ['lewnytoonsstudios.com', '127.0.0.1', 'web-production-aac2.up.railway.app', 'https://lewnytoonsstudios.com']
 
-CSRF_TRUSTED_ORIGINS = ['https://web-production-aac2.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://web-production-aac2.up.railway.app', 'https://lewnytoonsstudios.com']
 
 INTERNAL_IPS = [
     "127.0.0.1",
