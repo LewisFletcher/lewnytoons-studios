@@ -25,7 +25,7 @@ BASE_URL = 'http://127.0.0.1:8000'
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+DEBUG = False
 
 STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
 
