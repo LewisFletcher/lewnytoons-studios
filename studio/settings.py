@@ -188,7 +188,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 JAZZMIN_SETTINGS = {
     "site_title": "LewnyToons Studios Admin",
     "site_header": "LewnyToons Studios",
-    "site_logo": "music/static/lewny.png",
+    "site_logo": "lewny.jpg",
     "welcome_sign": "Welcome to LewnyToons Studios",
     "topmenu_links": [
     {"name": "Home",  "url": "/"},

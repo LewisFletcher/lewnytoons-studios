@@ -5,7 +5,7 @@
 
 {% block homepage %}
 
-<div class="flex flex-col md:flex-row flex-auto px-8 py-8 mt-10 mb-5 mx-8 border-b-2 border-t-2 border-slate-600 md:space-x-10 overflow-hidden">
+<div class="flex flex-col md:flex-row flex-auto px-4 py-4 mt-10 mb-5 mx-8 border-b-2 border-t-2 border-slate-600 md:space-x-10 overflow-hidden">
     <div class="flex-grow-1 flex-shrink-0 flex-auto h-64 w-64 md:h-96 md:w-96 lg:h-[36rem] lg:w-[36rem] transitional-all ease-in duration-500">
         <img src="{% static 'lewny.jpg' %}" class="w-64 h-64 md:h-96 md:w-96 lg:h-[36rem] lg:w-[36rem] transitional-all ease-in duration-500"alt=""></a>
     </div>
@@ -39,7 +39,7 @@
             </div>   
             <div class="text-lg font-bold hover:font-extrabold">
                 <button onclick="window.location.href='{% url 'the_music:music' %}';" class="lewny_button">
-                    LewnyToons
+                    LewnyToons(Music)
                 </button>
             </div>
         </div>
