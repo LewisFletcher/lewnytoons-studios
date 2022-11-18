@@ -8,10 +8,13 @@
         <p class="flex-1 w-auto text-slate-400 font-semilight md:ml-2">By: {{ post.owner }}</p>
         <p class="flex-1 w-auto text-slate-400 font-light md:my-1 md:ml-2">Published on: {{ post.created_at }}</p>
     </div>
+    {% if post.blog_photo1.url %}
     <div class="flex flex-col items-center mt-2 md:mt-3">
         <span><img src="{{ post.blog_photo1.url }}" class="max-h-96 w-auto grow"alt=""></span>
-        <p class="mt-2 grow text-sm text-gray-500">Image: {{ post.blog_photo1_ex }}</p>
+        <p class="mt-2 grow text-sm text-gray-500">Image: {{ post.blog_photo1_ex }}</p> 
     </div>
+    {% else %}
+    {% endif %}
     <div class="flex flex-col items-center mt-3 md:mt-6">
         <p class="mb-6">{{ post.blog_textbox1 }}</p>
         <p>{{ post.blog_textbox2 }}</p>

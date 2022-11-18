@@ -38,7 +38,7 @@ class BlogView(ListView):
         category_list = Category.objects.all()
         template = 'blog/all_posts.html'
         try:
-            max_value = 5
+            max_value = Post.total_posts(self)
             ran_num = str(random.randint(1, max_value))
             recent = Post.most_recent(self)
         except:
@@ -60,7 +60,7 @@ class BlogDetailView(DetailView):
     model = Post
     template_name = 'blog/detail.html'
     extra_context = sidebar_context
-    max_value = 5
+    max_value = Post.total_posts(Post)
     ran_num = str(random.randint(1, max_value))
     recent = '1'
     recent_url = ('/blog/' + recent)
