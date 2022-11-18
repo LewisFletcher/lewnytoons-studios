@@ -23,16 +23,11 @@ BASE_URL = 'http://127.0.0.1:8000'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-try:
-    SECRET_KEY = os.environ['SECRET_KEY']
-except:
-    SECRET_KEY = '83592835hjdfbvj798d'
+SECRET_KEY = os.environ['SECRET_KEY']
+
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-try:
-    STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
-except:
-    STRIPE_WEBHOOK_SECRET = 'none'
+STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
 
 ALLOWED_HOSTS = ['lewnytoonsstudios.com', '127.0.0.1', 'web-production-aac2.up.railway.app', 'https://lewnytoonsstudios.com']
 
@@ -241,11 +236,8 @@ DATABASES['default'].update(db_from_env)
 
 STRIPE_PUBLISHABLE_KEY = 'pk_live_51LrnwdEQnTnIGRAJbK5i6lEzLo8Y6AJIXKcBBJAZWrpFrXbYTp7qBaEYVEMGvVYmNll2UfMEthBdRPLaoG8Jn1RD00MPX8vgap'
 
-try:
-    STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
-except:
-    STRIPE_SECRET_KEY = '1923859728935'
+STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-#Remove fake keys in prod
+#Fix security settings
