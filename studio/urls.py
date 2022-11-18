@@ -8,8 +8,8 @@ from musicstudios.views import stripe_webhook
 
 urlpatterns = [
     path('lewnyupdate/', admin.site.urls),
-    path("__reload__/", include("django_browser_reload.urls")),
-    path('__debug__/', include('debug_toolbar.urls')),
+    #path("__reload__/", include("django_browser_reload.urls")),
+    #path('__debug__/', include('debug_toolbar.urls')),
     path('', include('home.urls')),
     path('portfolio/', include('portfolio.urls')),
     path('blog/', include('blog.urls')),
