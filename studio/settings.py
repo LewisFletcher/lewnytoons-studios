@@ -35,7 +35,7 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 
 AWS_STORAGE_BUCKET_NAME = 'lewnytoons-studios-media'
 
-ALLOWED_HOSTS = ['lewnytoonsstudios.com', '127.0.0.1', 'web-production-aac2.up.railway.app', 'https://lewnytoonsstudios.com', 'https://www.lewnytoonsstudios.com']
+ALLOWED_HOSTS = ['lewnytoonsstudios.com', '127.0.0.1', 'web-production-aac2.up.railway.app', 'lewnytoonsstudios.com', 'www.lewnytoonsstudios.com']
 
 CSRF_TRUSTED_ORIGINS = ['https://web-production-aac2.up.railway.app', 'https://lewnytoonsstudios.com', 'https://www.lewnytoonsstudios.com']
 
@@ -119,7 +119,7 @@ CSRF_COOKIE_SECURE = True
 
 SESSION_COOKIE_SECURE = True
 
-#SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = True
 
 #SECURE_HSTS_SECONDS = 3600
 
