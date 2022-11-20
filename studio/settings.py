@@ -33,7 +33,7 @@ DEBUG = False
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
-BASE_URL = 'http://127.0.0.1:8000'
+BASE_URL = 'https://www.lewnytoonsstudios.com/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -50,9 +50,11 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 
 AWS_STORAGE_BUCKET_NAME = 'lewnytoons-studios-media'
 
-ALLOWED_HOSTS = ['lewnytoonsstudios.com', 'www.lewnytoonsstudios.com', '127.0.0.1', 'web-production-aac2.up.railway.app', ]
+ALLOWED_HOSTS = ['web-production-aac2.up.railway.app', '.lewnytoonsstudios.com']
 
 CSRF_TRUSTED_ORIGINS = ['https://web-production-aac2.up.railway.app', 'https://lewnytoonsstudios.com', 'https://www.lewnytoonsstudios.com']
+
+ADMINS = [('lewis', 'lew.fletcher3@gmail.com')]
 
 INTERNAL_IPS = [
     "127.0.0.1",
