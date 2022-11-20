@@ -28,7 +28,7 @@ LOGGING = {
     },
 }
 
-DEBUG = False
+DEBUG = True
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'
