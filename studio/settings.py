@@ -57,7 +57,7 @@ CSRF_TRUSTED_ORIGINS = ['https://web-production-aac2.up.railway.app', 'https://l
 ADMINS = [('lewis', 'lew.fletcher3@gmail.com')]
 
 INTERNAL_IPS = [
-    "127.0.0.1",
+    '0.0.0.0',
 ]
 
 # Application definition
