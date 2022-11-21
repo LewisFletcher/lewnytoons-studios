@@ -39,14 +39,23 @@ BASE_URL = 'https://www.lewnytoonsstudios.com/'
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+try:
+    SECRET_KEY = os.environ['SECRET_KEY']
 
-SECRET_KEY = os.environ['SECRET_KEY']
+    STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
 
-STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 
-AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 
-AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+except:
+    SECRET_KEY = '111'
+
+    STRIPE_WEBHOOK_SECRET = '111'
+
+    AWS_ACCESS_KEY_ID = '111'
+
+    AWS_SECRET_ACCESS_KEY = '111'
 
 AWS_STORAGE_BUCKET_NAME = 'lewnytoons-studios-media'
 
@@ -193,10 +202,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    BASE_DIR / "media"
-]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -260,10 +265,13 @@ db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
 STRIPE_PUBLISHABLE_KEY = 'pk_live_51LrnwdEQnTnIGRAJbK5i6lEzLo8Y6AJIXKcBBJAZWrpFrXbYTp7qBaEYVEMGvVYmNll2UfMEthBdRPLaoG8Jn1RD00MPX8vgap'
+try:
+    STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
 
-STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
+except:
+    STRIPE_SECRET_KEY = '111'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 AWS_S3_FILE_OVERWRITE = False
 
