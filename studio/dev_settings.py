@@ -18,28 +18,13 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'logging.NullHandler',
-        },
         'console': {
             'class': 'logging.StreamHandler',
         },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-        },
     },
-    'loggers': {
-        'django.security.DisallowedHost': {
-            'handlers': ['null'],
-            'propagate': False,
-        },
-        'django': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
     },
 }
 
@@ -65,11 +50,15 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 
 AWS_STORAGE_BUCKET_NAME = 'lewnytoons-studios-media'
 
-ALLOWED_HOSTS = ['.lewnytoonsstudios.com']
+ALLOWED_HOSTS = ['web-production-aac2.up.railway.app', '.lewnytoonsstudios.com']
 
-CSRF_TRUSTED_ORIGINS = ['https://lewnytoonsstudios.com', 'https://www.lewnytoonsstudios.com']
+CSRF_TRUSTED_ORIGINS = ['https://web-production-aac2.up.railway.app', 'https://lewnytoonsstudios.com', 'https://www.lewnytoonsstudios.com']
 
 ADMINS = [('lewis', 'lew.fletcher3@gmail.com')]
+
+INTERNAL_IPS = [
+    '0.0.0.0',
+]
 
 # Application definition
 
@@ -147,13 +136,13 @@ CSRF_COOKIE_SECURE = True
 
 SESSION_COOKIE_SECURE = True
 
-SECURE_SSL_REDIRECT = True
+#SECURE_SSL_REDIRECT = True
 
-SECURE_HSTS_SECONDS = 3600
+#SECURE_HSTS_SECONDS = 3600
 
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
-SECURE_HSTS_PRELOAD = True
+#SECURE_HSTS_PRELOAD = True
 
 
 # Database
