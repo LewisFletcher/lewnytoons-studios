@@ -18,26 +18,14 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'logging.NullHandler',
-        },
         'console': {
             'class': 'logging.StreamHandler',
         },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-        },
     },
     'loggers': {
-        'django.security.DisallowedHost': {
-            'handlers': ['null'],
-            'propagate': False,
-        },
         'django': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'INFO',
+            'handlers': ['console'],
+            'level': 'ERROR',
             'propagate': True,
         },
     },
